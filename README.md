@@ -6,9 +6,10 @@
 So now you know what's in your fridge? :beer: :sunglasses:
 
 ## TODO
-- [x] :sleeping:
+- [x] :zzz:
 - [ ] CLEANING UP!
 - [ ] Style it up! :fire:
+- [ ] Add cool badges to README :star2:
 
 ## Build Setup
 
