@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Hello from '@/components/Hello'
-import PostsManager from '@/components/PostsManager'
+import FridgeStock from '@/components/FridgeStock'
+import User from '@/components/User'
 import Auth from '@okta/okta-vue'
 
 // Use OKTA authentication
@@ -27,9 +28,17 @@ let router = new Router({
       component: Auth.handleCallback() // Okta redirects back to app after authentication.
     },
     {
-      path: '/posts-manager',
-      name: 'PostsManager',
-      component: PostsManager,
+      path: '/fridge-stock',
+      name: 'FridgeStock',
+      component: FridgeStock,
+      meta: {
+        requiresAuth: true // Tells Oktas auth guard that this route needs login
+      }
+    },
+    {
+      path: '/user',
+      name: 'User',
+      component: User,
       meta: {
         requiresAuth: true // Tells Oktas auth guard that this route needs login
       }

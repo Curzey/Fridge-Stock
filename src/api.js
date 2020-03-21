@@ -21,19 +21,36 @@ export default {
       return req.data
     })
   },
-  getPosts () {
-    return this.execute('get', '/posts')
+  getTableItems () {
+    return this.execute('get', '/tableItems')
   },
-  getPost (id) {
-    return this.execute('get', `/posts/${id}`)
+  getTableItem (id) {
+    return this.execute('get', `/tableItems/${id}`)
   },
-  createPost (data) {
-    return this.execute('post', '/posts', data)
+  createTableItem (data) {
+    return this.execute('post', '/tableItems', data)
   },
-  updatePost (id, data) {
-    return this.execute('put', `/posts/${id}`, data)
+  updateTableItem (id, data) {
+    return this.execute('put', `/tableItems/${id}`, data)
   },
-  deletePost (id) {
-    return this.execute('delete', `/posts/${id}`)
+  deleteTableItem (id) {
+    return this.execute('delete', `/tableItems/${id}`)
+  },
+
+  getTables () {
+    return this.execute('get', '/tables')
+  },
+  getTable (id) {
+    return this.execute('get', `/tables/${id}`)
+  },
+  createTable (data) {
+    return this.execute('post', '/tables', data)
+  },
+  updateTable (id, data) {
+    return this.execute('put', `/tables/${id}`, data)
+  },
+  deleteTable (id) {
+    return this.execute('delete', `/tables/${id}`)
   }
+
 }

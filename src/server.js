@@ -36,14 +36,20 @@ app.use((req, res, next) => {
 // For ease of this tutorial, we are going to use SQLite to limit dependencies
 let database = new Sequelize({
   dialect: 'sqlite',
-  storage: './test.sqlite'
+  storage: './fridge-db.sqlite'
 })
 
-// Define our Post model
+// Define our TableItem model
 // id, createdAt, and updatedAt are added by sequelize automatically
-let Post = database.define('posts', {
+let TableItem = database.define('tableItems', {
   title: Sequelize.STRING,
-  body: Sequelize.TEXT
+  qty: Sequelize.INTEGER,
+  category: Sequelize.STRING,
+  table: Sequelize.STRING
+})
+
+let Table = database.define('tables', {
+  title: Sequelize.STRING
 })
 
 // Initialize finale
@@ -52,10 +58,15 @@ finale.initialize({
   sequelize: database
 })
 
-// Create the dynamic REST resource for our Post model
+// Create the dynamic REST resource for our TableItem model
 let userResource = finale.resource({
-  model: Post,
-  endpoints: ['/posts', '/posts/:id']
+  model: TableItem,
+  endpoints: ['/tableItems', '/tableItems/:id']
+})
+
+let tableResource = finale.resource({
+  model: Table,
+  endpoints: ['/tables', '/tables/:id']
 })
 
 // Resets the database and launches the express app on :8081
