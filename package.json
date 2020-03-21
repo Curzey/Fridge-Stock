@@ -11,9 +11,15 @@
     "lint": "eslint --ext .js,.vue src"
   },
   "dependencies": {
+    "@okta/jwt-verifier": "0.0.11",
     "@okta/okta-vue": "^1.0.0",
+    "axios": "^0.19.2",
     "bootstrap": "^4.1.0",
     "bootstrap-vue": "^2.0.0-rc.7",
+    "cors": "^2.8.5",
+    "finale-rest": "^1.1.1",
+    "sequelize": "^5.21.5",
+    "sqlite3": "^4.1.1",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1"
   },
