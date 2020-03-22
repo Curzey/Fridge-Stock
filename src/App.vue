@@ -1,51 +1,60 @@
 <template>
-  <div id="app">
-    <b-navbar toggleable="md" type="dark" variant="dark">
-      <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
-      <b-navbar-brand to="/">Master Fridginator</b-navbar-brand>
-      <b-collapse is-nav id="nav_collapse">
-        <b-navbar-nav>
-          <b-nav-item to="/">Home</b-nav-item>
-          <b-nav-item to="/fridge-stock">What's in my fridge?</b-nav-item>
-          <b-nav-item to="/user" v-if="activeUser">{{ activeUser.given_name }}</b-nav-item>
-          <b-nav-item href="#" @click.prevent="login" v-if="!activeUser">Login</b-nav-item>
-          <b-nav-item href="#" @click.prevent="logout" v-else>Logout</b-nav-item>
-        </b-navbar-nav>
-      </b-collapse>
-    </b-navbar>
-    <!-- routes will be rendered here -->
-    <router-view />
-  </div>
+  <v-app>
+    <v-app-bar
+      app
+      color="primary"
+      dark
+    >
+      <div class="d-flex align-center">
+        <v-img
+          alt="Vuetify Logo"
+          class="shrink mr-2"
+          contain
+          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
+          transition="scale-transition"
+          width="40"
+        />
+
+        <v-img
+          alt="Vuetify Name"
+          class="shrink mt-1 hidden-sm-and-down"
+          contain
+          min-width="100"
+          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
+          width="100"
+        />
+      </div>
+
+      <v-spacer></v-spacer>
+
+      <v-btn
+        href="https://github.com/vuetifyjs/vuetify/releases/latest"
+        target="_blank"
+        text
+      >
+        <span class="mr-2">Latest Release</span>
+        <v-icon>mdi-open-in-new</v-icon>
+      </v-btn>
+    </v-app-bar>
+
+    <v-content>
+      <HelloWorld/>
+    </v-content>
+  </v-app>
 </template>
 
 <script>
+import HelloWorld from './components/HelloWorld';
 
 export default {
-  name: 'app',
-  data () {
-    return {
-      activeUser: null
-    }
+  name: 'App',
+
+  components: {
+    HelloWorld,
   },
-  async created () {
-    await this.refreshActiveUser()
-  },
-  watch: {
-    // everytime a route is changed refresh the activeUser
-    '$route': 'refreshActiveUser'
-  },
-  methods: {
-    login () {
-      this.$auth.loginRedirect()
-    },
-    async refreshActiveUser () {
-      this.activeUser = await this.$auth.getUser()
-    },
-    async logout () {
-      await this.$auth.logout()
-      await this.refreshActiveUser()
-      this.$router.push('/')
-    }
-  }
-}
+
+  data: () => ({
+    //
+  }),
+};
 </script>
