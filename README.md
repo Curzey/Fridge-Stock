@@ -7,10 +7,11 @@ So now you know what's in your fridge? :beer: :sunglasses:
 
 ## TODO
 - [x] :zzz:
-- [ ] CLEANING UP!
-- [ ] Style it up! :fire:
+- [x] CLEANING UP!
+- [x] Style it up! :fire:
 - [ ] Add cool badges to README :star2:
 - [ ] Create new repo for this project, where Okta Client ID is hidden, so it can be public. [Help](https://gist.github.com/derzorngottes/3b57edc1f996dddcab25)
+- [ ] Do some cool stuff on the /user page :wheelchair:
 
 ## Build Setup
 
