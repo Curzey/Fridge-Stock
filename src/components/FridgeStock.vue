@@ -1,7 +1,7 @@
 <template>
   <div class="container-fluid mt-4">
     <h1 class="h1 mt-5 mb-4">What's in my fridge?</h1>
-    <b-alert :show="loading" variant="info">Loading...</b-alert>
+    <b-alert :show="loading" class="d-flex align-items-center" variant="info"><i class="gg-spinner mr-2"></i> Loading... </b-alert>
 
     <b-jumbotron :lead="(model.id ? 'Edit ' + model.title : 'New Item')">
       <b-form inline @submit.prevent="saveTableItem">
@@ -17,7 +17,7 @@
         </b-input-group>
 
         <label class="sr-only" for="inline-form-input-unit">Unit</label>
-        <b-input-group prepend="<i class='gg-gym mr-2'></i>" class="mb-2 mr-sm-2 mb-sm-0">
+        <b-input-group prepend="<i class='gg-gym'></i>" class="mb-2 mr-sm-2 mb-sm-0">
           <b-input v-model="model.unit" id="inline-form-input-unit" placeholder="Unit"></b-input>
         </b-input-group>
 
