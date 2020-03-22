@@ -44,6 +44,7 @@ let database = new Sequelize({
 let TableItem = database.define('tableItems', {
   title: Sequelize.STRING,
   qty: Sequelize.INTEGER,
+  unit: Sequelize.STRING,
   category: Sequelize.STRING,
   table: Sequelize.STRING
 })

@@ -4,6 +4,24 @@
 
 		<b-row>
 			<b-col lg="3">
+
+        <Alert v-if="this.$parent.activeUser"
+          :content="{
+            show: this.$parent.activeUser.email_verified,
+            variant: 'success',
+            modifier: 'd-flex align-items-center',
+            htmlContent: '<i class=\'gg-check-o mr-2\'></i> Okta account verified!'
+          }"
+        />
+        <Alert v-if="this.$parent.activeUser"
+          :content="{
+            show: !this.$parent.activeUser.email_verified,
+            variant: 'warning',
+            modifier: 'd-flex align-items-center',
+            htmlContent: '<i class=\'gg-danger mr-2\'></i> You need to verify your Okta account!'
+          }"
+        />
+
 				<b-card :title="'Your tables'">
 					<form @submit.prevent="saveTable">
 						<b-form-group label="">
@@ -19,7 +37,7 @@
 				  <b-list-group-item v-for="(table, index) in tables" :key="index">
 						{{ table.title }}
 						<a href="#" @click.prevent="populateTableToEdit(table)">Edit</a> -
-						<a href="#" @click.prevent="deleteTable(table.id)">Delete</a>
+						<a href="#" @click.prevent="deleteElement(table.id)">Delete</a>
 					</b-list-group-item>
 				</b-list-group>
 			</b-col>
@@ -30,7 +48,12 @@
 
 <script>
 import api from '@/api'
+import Alert from '@/components/alert'
+
 export default {
+  components: {
+    Alert
+  },
   data () {
     return {
       loading: false,
@@ -39,25 +62,20 @@ export default {
     }
   },
   async created () {
-    this.refreshTables()
+		this.tables = await api.getElements('tables')
   },
   methods: {
-    async refreshTables () {
-      this.loading = true
-      this.tables = await api.getTables()
-      this.loading = false
-    },
     async populateTableToEdit (table) {
       this.model = Object.assign({}, table)
     },
     async saveTable () {
       if (this.model.id) {
-        await api.updateTable(this.model.id, this.model)
+        await api.updateElement('tables', this.model.id, this.model)
       } else {
-        await api.createTable(this.model)
+        await api.createElement('tables', this.model)
       }
       this.model = {} // reset form
-      await this.refreshTables()
+      this.tables = await api.getElements('tables')
     },
     async deleteTable (id) {
       if (confirm('Are you sure you want to delete this table?')) {
@@ -65,8 +83,8 @@ export default {
         if (this.model.id === id) {
           this.model = {}
         }
-        await api.deleteTable(id)
-        await this.refreshTables()
+        await api.deleteElement('tables', id)
+        this.tables = await api.getElements('tables')
       }
     }
   }

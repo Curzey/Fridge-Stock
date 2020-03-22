@@ -21,36 +21,19 @@ export default {
       return req.data
     })
   },
-  getTableItems () {
-    return this.execute('get', '/tableItems')
+  getElements (query) {
+    return this.execute('get', `/${query}`)
   },
-  getTableItem (id) {
-    return this.execute('get', `/tableItems/${id}`)
+  getElement (query, id) {
+    return this.execute('get', `/${query}/${id}`)
   },
-  createTableItem (data) {
-    return this.execute('post', '/tableItems', data)
+  createElement (query, data) {
+    return this.execute('post', `/${query}`, data)
   },
-  updateTableItem (id, data) {
-    return this.execute('put', `/tableItems/${id}`, data)
+  updateElement (query, id, data) {
+    return this.execute('put', `/${query}/${id}`, data)
   },
-  deleteTableItem (id) {
-    return this.execute('delete', `/tableItems/${id}`)
-  },
-
-  getTables () {
-    return this.execute('get', '/tables')
-  },
-  getTable (id) {
-    return this.execute('get', `/tables/${id}`)
-  },
-  createTable (data) {
-    return this.execute('post', '/tables', data)
-  },
-  updateTable (id, data) {
-    return this.execute('put', `/tables/${id}`, data)
-  },
-  deleteTable (id) {
-    return this.execute('delete', `/tables/${id}`)
+  deleteElement (query, id) {
+    return this.execute('delete', `/${query}/${id}`)
   }
-
 }
