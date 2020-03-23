@@ -9,7 +9,7 @@ import Auth from '@okta/okta-vue'
 Vue.use(Auth, {
   issuer: 'https://dev-558941.okta.com/oauth2/default',
   client_id: '0oa4migwmnIE1hFZX4x6',
-  redirect_uri: 'what-the-fridge-lean-alligator.eu-gb.mybluemix.net/implicit/callback',
+  redirect_uri: 'https://what-the-fridge-lean-alligator.eu-gb.mybluemix.net/implicit/callback',
   scope: 'openid profile email'
 })
 
