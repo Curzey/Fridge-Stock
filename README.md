@@ -1,16 +1,21 @@
 # What the fridge!?
 
-> A Vue.js app utilising vue-clu, vue-router and Okta Vue SDK
-> Using Node backend powered by Express, Okta JWT Verifier, Sequelize and Finale - all complimenting the database and REST API.
+#### Setup
+> `vue-cli 3`, `vue-router`, `Okta Vue SDK`, `npm`, `webpack`, `babel`
 
-So now you know what's in your fridge? :beer: :sunglasses:
+#### Frontend
+> `VueJS`, `PostCSS`
+
+#### Middleware, Backend & REST API
+> `Node`, `Express`, `Sequelize`, `Finale`, Okta JWT Verifier
+
+...So now you know what's in your fridge? :beer: :sunglasses:
 
 ## TODO
 - [x] :zzz:
 - [x] CLEANING UP!
 - [x] Style it up! :fire:
 - [ ] Add cool badges to README :star2:
-- [ ] Create new repo for this project, where Okta Client ID is hidden, so it can be public. [Help](https://gist.github.com/derzorngottes/3b57edc1f996dddcab25)
 - [ ] Do some cool stuff on the /user page :wheelchair:
 - [ ] Add a Sign Up link
 
