@@ -1,7 +1,8 @@
 applications:
   - name: what-the-fridge
     path: ./dist
-    buildpack: https://github.com/cloudfoundry/staticfile-buildpack.git
+    # buildpack: https://github.com/cloudfoundry/staticfile-buildpack.git
+    buildpack: https://github.com/cloudfoundry/nginx-buildpack.git
     memory: 128M
     routes:
       - route: myuniquehostwhatthefridgeapp.eu-gb.mybluemix.net
