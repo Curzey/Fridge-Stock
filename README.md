@@ -7,7 +7,7 @@
 > `VueJS`, `PostCSS`
 
 #### Middleware, Backend & REST API
-> `Node`, `Express`, `Sequelize`, `Finale`, Okta JWT Verifier
+> `Node`, `Express`, `Sequelize`, `Finale`, `Okta JWT Verifier`
 
 ...So now you know what's in your fridge? :beer: :sunglasses:
 
