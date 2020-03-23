@@ -16,7 +16,7 @@ Vue.use(Auth, {
 Vue.use(Router)
 
 let router = new Router({
-  mode: 'history',
+  mode: 'hash',
   routes: [
     {
       path: '/',
