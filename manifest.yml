@@ -1,6 +1,6 @@
 applications:
   - name: what-the-fridge
-    path: ./build
+    path: ./dist
     buildpack: https://github.com/cloudfoundry/staticfile-buildpack.git
     random-route: true
     memory: 256M
