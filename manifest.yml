@@ -2,7 +2,8 @@ applications:
   - name: what-the-fridge
     path: ./dist
     buildpack: https://github.com/cloudfoundry/staticfile-buildpack.git
-    random-route: true
     memory: 128M
+    routes:
+      - route: myuniquehostwhatthefridgeapp.eu-gb.mybluemix.net
     env:
         FORCE_HTTPS: true
