@@ -8,7 +8,7 @@
 
         <label class="sr-only" for="inline-form-input-title">Title</label>
         <b-input-group prepend="<i class='gg-chevron-double-right'></i>" class="mb-2 mr-sm-2 mb-sm-0">
-          <b-input v-model="model.title" id="inline-form-input-title" placeholder="Title"></b-input>
+          <b-input v-model="model.title" id="inline-form-input-title" required placeholder="Title"></b-input>
         </b-input-group>
 
         <label class="sr-only" for="inline-form-input-quantity">Quantity</label>
@@ -28,7 +28,7 @@
 
         <label class="sr-only" for="inline-form-input-table">Table</label>
         <b-input-group prepend="<i class='gg-row-first'></i>" class="mb-2 mr-sm-2 mb-sm-0">
-          <b-form-select v-model="model.table" :options="tableOptions"></b-form-select>
+          <b-form-select required v-model="model.table" :options="tableOptions"></b-form-select>
         </b-input-group>
 
         <b-button type="submit" variant="primary">Save</b-button>
