@@ -5,6 +5,11 @@ const Sequelize = require('sequelize')
 const finale = require('finale-rest')
 const OktaJwtVerifier = require('@okta/jwt-verifier')
 
+// test
+const path = require('path')
+const history = require('connect-history-api-fallback')
+// testend
+
 const oktaJwtVerifier = new OktaJwtVerifier({
   clientId: '0oa4migwmnIE1hFZX4x6',
   issuer: 'https://dev-558941.okta.com/oauth2/default'
@@ -13,6 +18,21 @@ const oktaJwtVerifier = new OktaJwtVerifier({
 let app = express()
 app.use(cors())
 app.use(bodyParser.json())
+
+//test
+const staticFileMiddleware = express.static(path.join(__dirname))
+app.use(staticFileMiddleware)
+app.use(history())
+app.use(staticFileMiddleware)
+
+app.get('/', function (req, res) {
+  res.render(path.join(__dirname + '/index.html'))
+})
+
+app.listen(5000, function () {
+  console.log( 'Express serving on 5000!' )
+})
+//testend
 
 // verify JWT token middleware
 app.use((req, res, next) => {
