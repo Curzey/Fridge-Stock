@@ -2,7 +2,7 @@ import Vue from 'vue'
 import axios from 'axios'
 
 const client = axios.create({
-  baseURL: 'http://localhost:8081/',
+  baseURL: 'http://api.curzey.dk/',
   json: true
 })
 
