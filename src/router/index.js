@@ -9,7 +9,7 @@ import Auth from '@okta/okta-vue'
 Vue.use(Auth, {
   issuer: 'https://dev-558941.okta.com/oauth2/default',
   client_id: '0oa4migwmnIE1hFZX4x6',
-  redirect_uri: 'https://fridge-stock.now.sh/implicit/callback',
+  redirect_uri: 'http://app.curzey.dk/implicit/callback',
   // redirect_uri: 'http://localhost:8080/implicit/callback',
   scope: 'openid profile email'
 })
