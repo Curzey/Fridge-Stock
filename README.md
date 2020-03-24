@@ -11,13 +11,6 @@
 
 ...So now you know what's in your fridge? :beer: :sunglasses:
 
-## TODO
-- [x] :zzz:
-- [x] CLEANING UP!
-- [x] Style it up! :fire:
-- [ ] Add cool badges to README :star2:
-- [ ] Do some cool stuff on the /user page :wheelchair:
-- [x] Add a Sign Up link
 
 ## Build Setup Locally
 
