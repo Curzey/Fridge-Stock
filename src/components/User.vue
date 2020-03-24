@@ -37,7 +37,7 @@
 				  <b-list-group-item v-for="(table, index) in tables" :key="index">
 						{{ table.title }}
 						<a href="#" @click.prevent="populateTableToEdit(table)">Edit</a> -
-						<a href="#" @click.prevent="deleteElement(table.id)">Delete</a>
+						<a href="#" @click.prevent="deleteTable(table.id)">Delete</a>
 					</b-list-group-item>
 				</b-list-group>
 			</b-col>

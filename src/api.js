@@ -2,7 +2,7 @@ import Vue from 'vue'
 import axios from 'axios'
 
 const client = axios.create({
-  baseURL: 'http://api.curzey.dk/',
+  baseURL: process.env.VUE_APP_API_BASEURL,
   json: true
 })
 
