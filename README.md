@@ -17,9 +17,9 @@
 - [x] Style it up! :fire:
 - [ ] Add cool badges to README :star2:
 - [ ] Do some cool stuff on the /user page :wheelchair:
-- [ ] Add a Sign Up link
+- [x] Add a Sign Up link
 
-## Build Setup
+## Build Setup Locally
 
 ``` bash
 # install dependencies
