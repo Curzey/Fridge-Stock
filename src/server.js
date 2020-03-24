@@ -71,6 +71,7 @@ let tableResource = finale.resource({
 })
 
 // Resets the database and launches the express app on :8081
+// delete .sync(force: true) if database keeps deleted
 database
   .sync({ force: true })
   .then(() => {
