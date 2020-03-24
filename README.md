@@ -12,11 +12,7 @@
 ...So now you know what's in your fridge? :beer: :sunglasses:
 
 ## Test login
-### Username
-> ibgtqiwahwjeakuhoc@ttirv.org
-
-### Password
-> 10Minutepassword
+> ibgtqiwahwjeakuhoc@ttirv.org : 10Minutepassword
 
 
 ## Build Setup Locally
