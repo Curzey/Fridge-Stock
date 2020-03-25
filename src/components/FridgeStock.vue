@@ -28,7 +28,7 @@
 
         <label class="sr-only" for="inline-form-input-table">Table</label>
         <b-input-group prepend="<i class='gg-row-first'></i>" class="mb-2 mr-sm-2 mb-sm-0">
-          <b-form-select required v-model="model.table" :options="tableOptions"></b-form-select>
+          <b-form-select required v-model="model.table" :options="tables"></b-form-select>
         </b-input-group>
 
         <b-button type="submit" variant="primary">Save</b-button>
@@ -37,24 +37,23 @@
 
     <b-row>
       <b-col>
-
 				<div
-					v-for="(table, index) in tables"
+					v-for="(table, index) in tables.filter(table => !table.skip)"
 					:key="index"
           class="mb-3">
 
-					<h3>{{ table }}</h3>
+					<h3>{{ table.title }}</h3>
 
 					<b-alert
-						:show="tableItems.filter(tableItem => tableItem.table === handleizeString(table)).length === 0"
+						:show="tableItems.filter(tableItem => tableItem.table === table.id).length === 0"
 						variant="warning">
 
-						{{ table }} is all empty. Quickly, go shopping!!
+						{{ table.title }} is all empty. Quickly, go shopping!!
 					</b-alert>
 
           <b-card-group columns>
             <div
-              v-for="(item, index) in tableItems.filter(tableItem => tableItem.table === handleizeString(table))"
+              v-for="(item, index) in tableItems.filter(tableItem => tableItem.table === table.id)"
               :key="index"
               :data-handle="handleizeString(item.title)">
               <b-card
@@ -94,12 +93,12 @@ export default {
       tableItems: [],
       model: { table: null }, // initialize model with nulled table value for the default selected option in form
       tables: [],
-      tableOptions: []
+      activeUser: null
 		}
   },
   async created () {
+    this.activeUser = await this.$auth.getUser()
     this.refreshTableItems()
-		this.tablesAsArray()
     this.tablesAsOptions()
   },
   methods: {
@@ -109,24 +108,21 @@ export default {
       this.loading = false
     },
     async tablesAsOptions () {
-      this.tableOptions = await api.getElements('tables')
+      const tables = await api.getElements('tables')
+      this.tables = tables.filter(item => item.user === this.activeUser.sub)
+      // this.tables = tables
 
       // Populate each table with key/value pairs that bootstrap form select knows
-      this.tableOptions.map(item => {
-        item.value = this.handleizeString(item.title)
+      this.tables.map(item => {
+        item.value = item.id
         item.text = item.title
         return item
       })
 
       // Add default/empty option
-      const defaultOption = { value: null, text: 'Please pick an option', disabled: true }
-      this.tableOptions.unshift(defaultOption)
+      const defaultOption = { value: null, text: 'Please pick an option', disabled: true, skip: true }
+      this.tables.unshift(defaultOption)
     },
-		async tablesAsArray () {
-			for (const [key, val] of Object.entries(await api.getElements('tables'))) {
-				this.tables.push(val.title)
-			}
-		},
     async populateTableItemToEdit (tableItem) {
       this.model = Object.assign({}, tableItem)
 

@@ -4,6 +4,7 @@ import Hello from '@/components/Hello'
 import FridgeStock from '@/components/FridgeStock'
 import User from '@/components/User'
 import Auth from '@okta/okta-vue'
+import api from '@/api'
 
 // Use OKTA authentication
 Vue.use(Auth, {

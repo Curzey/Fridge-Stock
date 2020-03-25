@@ -1,21 +1,21 @@
 <template>
   <div class="container-fluid mt-4">
-    <h1 class="h1">Hello {{ this.$parent.activeUser ? this.$parent.activeUser.given_name : '$user' }}</h1>
+    <h1 class="h1">Hello {{ activeUser ? activeUser.given_name : '$user' }}</h1>
 
 		<b-row>
 			<b-col lg="3">
 
-        <Alert v-if="this.$parent.activeUser"
+        <Alert v-if="activeUser"
           :content="{
-            show: this.$parent.activeUser.email_verified,
+            show: activeUser.email_verified,
             variant: 'success',
             modifier: 'd-flex align-items-center',
             htmlContent: '<i class=\'gg-check-o mr-2\'></i> Okta account verified!'
           }"
         />
-        <Alert v-if="this.$parent.activeUser"
+        <Alert v-if="activeUser"
           :content="{
-            show: !this.$parent.activeUser.email_verified,
+            show: !activeUser.email_verified,
             variant: 'warning',
             modifier: 'd-flex align-items-center',
             htmlContent: '<i class=\'gg-danger mr-2\'></i> You need to verify your Okta account!'
@@ -58,15 +58,32 @@ export default {
     return {
       loading: false,
       tables: [],
-      model: {}
+      model: {},
+      activeUser: null
     }
   },
   async created () {
-		this.tables = await api.getElements('tables')
+    await this.addUserToDB()
+    await this.getUserItems()
   },
   methods: {
+    async getUserItems () {
+      const userTables = await api.getElements('tables')
+      this.tables = userTables.filter(item => item.user === this.activeUser.sub)
+    },
     async populateTableToEdit (table) {
       this.model = Object.assign({}, table)
+    },
+    async addUserToDB () {
+      this.activeUser = await this.$auth.getUser()
+      const usersObj = await api.getElements('users')
+
+      // Only add user entry if user is new
+      if ( !usersObj.find(x => this.activeUser.sub === x.sub) ) {
+        await api.createElement('users', this.activeUser)
+      }
+
+      this.model.user = this.activeUser.sub
     },
     async saveTable () {
       if (this.model.id) {
@@ -74,17 +91,17 @@ export default {
       } else {
         await api.createElement('tables', this.model)
       }
-      this.model = {} // reset form
-      this.tables = await api.getElements('tables')
+      this.model = { user: this.activeUser.sub } // reset form
+      await this.getUserItems()
     },
     async deleteTable (id) {
       if (confirm('Are you sure you want to delete this table?')) {
         // if we are editing a table we deleted, remove it from the form
         if (this.model.id === id) {
-          this.model = {}
+          this.model = { user: this.activeUser.sub } // reset form
         }
         await api.deleteElement('tables', id)
-        this.tables = await api.getElements('tables')
+        await this.getUserItems()
       }
     }
   }

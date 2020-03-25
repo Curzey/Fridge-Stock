@@ -16,9 +16,6 @@ Vue.filter('formatDate', function(value) {
   }
 })
 
-console.log('API BASEURL', process.env.VUE_APP_API_BASEURL)
-console.log('OKTA REDIRECT URI', process.env.VUE_APP_OKTA_REDIRECT_URI)
-
 Vue.use(BootstrapVue)
 
 Vue.config.productionTip = false

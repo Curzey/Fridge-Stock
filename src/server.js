@@ -33,7 +33,6 @@ app.use((req, res, next) => {
     .catch(next) // jwt did not verify!
 })
 
-// For ease of this tutorial, we are going to use SQLite to limit dependencies
 let database = new Sequelize({
   dialect: 'sqlite',
   storage: './fridge-db.sqlite'
@@ -46,11 +45,16 @@ let TableItem = database.define('tableItems', {
   qty: Sequelize.INTEGER,
   unit: Sequelize.STRING,
   category: Sequelize.STRING,
-  table: Sequelize.STRING
+  table: Sequelize.INTEGER
 })
 
 let Table = database.define('tables', {
-  title: Sequelize.STRING
+  title: Sequelize.STRING,
+  user: Sequelize.STRING
+})
+
+let User = database.define('users', {
+  sub: Sequelize.STRING
 })
 
 // Initialize finale
@@ -60,7 +64,7 @@ finale.initialize({
 })
 
 // Create the dynamic REST resource for our TableItem model
-let userResource = finale.resource({
+let tabeItemResource = finale.resource({
   model: TableItem,
   endpoints: ['/tableItems', '/tableItems/:id']
 })
@@ -68,6 +72,11 @@ let userResource = finale.resource({
 let tableResource = finale.resource({
   model: Table,
   endpoints: ['/tables', '/tables/:id']
+})
+
+let userResource = finale.resource({
+  model: User,
+  endpoints: ['/users', '/users/:id']
 })
 
 // Resets the database and launches the express app on :8081
