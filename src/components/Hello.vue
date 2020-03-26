@@ -6,8 +6,9 @@
         See more at <a class="d-flex align-items-center" target="_blank" href="https://github.com/Curzey/Fridge-Stock"><i class="gg-git-fork"></i> Github</a>
       </p>
       <section class="cta">
-        <b-button :variant="isNewUser ? 'link' : 'primary'" to="/fridge-stock">Tilføj madvarer</b-button>
-        <b-button :variant="!isNewUser ? 'link' : 'primary'" to="/user">Opret dit første table</b-button>
+        <b-button v-if="activeUser !== undefined" :variant="isNewUser ? 'link' : 'primary'" to="/fridge-stock">Tilføj madvarer</b-button>
+        <b-button v-if="activeUser !== undefined" :variant="!isNewUser ? 'link' : 'primary'" to="/user">Opret dit første table</b-button>
+        <b-button v-else variant="primary" to="/user">Log in</b-button>
       </section>
     </div>
   </div>
@@ -29,9 +30,11 @@ export default {
   },
   methods: {
     async updateIsNewUser () {
-      const tables = await api.getElements('tables')
-      const userTables = tables.filter(item => item.user === this.activeUser.sub)
-      return userTables.length <= 0
+      if ( this.activeUser !== undefined ) {
+        const tables = await api.getElements('tables')
+        const userTables = tables.filter(item => item.user === this.activeUser.sub)
+        return userTables.length <= 0
+      }
     }
   }
 }
