@@ -3,24 +3,7 @@
     <h1 class="h1">{{ language.user.hello }} {{ activeUser ? `${activeUser.given_name} ${activeUser.family_name}` : '$user' }}</h1>
 
 		<b-row>
-			<b-col lg="3">
-
-        <Alert v-if="activeUser"
-          :content="{
-            show: activeUser.email_verified,
-            variant: 'success',
-            modifier: 'd-flex align-items-center',
-            htmlContent: '<i class=\'gg-check-o mr-2\'></i> ' + language.user.okta_verified
-          }"
-        />
-        <Alert v-if="activeUser"
-          :content="{
-            show: !activeUser.email_verified,
-            variant: 'warning',
-            modifier: 'd-flex align-items-center',
-            htmlContent: '<i class=\'gg-danger mr-2\'></i> ' + language.user.okta_not_verified
-          }"
-        />
+			<b-col md="6" xl="4">
 
 				<b-card :title="language.user.add_tables" class="mb-3">
           <div class="help mb-4">
@@ -57,7 +40,7 @@
         </b-card>
 			</b-col>
 
-      <b-col lg="3">
+      <b-col md="6" xl="4">
         <b-card :title="language.user.language" class="mb-3">
           <b-dropdown id="dropdown-1" :text="language.user.choose_language" class="m-md-2">
             <b-dropdown-item><a href="#" @click.prevent="setNewLanguage('da')">Dansk</a></b-dropdown-item>
@@ -77,13 +60,9 @@
 
 <script>
 import api from '@/api'
-import Alert from '@/components/alert'
 import Vue from 'vue'
 
 export default {
-  components: {
-    Alert
-  },
   data () {
     return {
       loading: false,

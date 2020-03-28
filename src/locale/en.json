@@ -39,6 +39,7 @@
     "add_storage_units": "Add storage units to continue",
     "add_storage_units_link": "Add them there!",
     "is_all_empty": "is all empty. Quickly, go shopping!!",
-    "delete": "Delete"
+    "delete": "Delete",
+    "other": "Other"
   }
 }

@@ -39,6 +39,7 @@
     "add_storage_units": "Tilføj en opbevaringsgenstand for at fortsætte",
     "add_storage_units_link": "Tilføj her",
     "is_all_empty": "er helt tom. Skynd dig ud at handle!!",
-    "delete": "Slet"
+    "delete": "Slet",
+    "other": "Andet"
   }
 }
