@@ -3,12 +3,12 @@
     <div>
       <h1 class="display-3"><span class="fat">Master Refridgiator</span> at your service!</h1>
       <p class="lead d-flex align-items-center justify-content-center">
-        See more at <a class="d-flex align-items-center" target="_blank" href="https://github.com/Curzey/Fridge-Stock"><i class="gg-git-fork"></i> Github</a>
+        {{ language.home.see_more_at }} <a class="d-flex align-items-center" target="_blank" href="https://github.com/Curzey/Fridge-Stock"><i class="gg-git-fork"></i> Github</a>
       </p>
       <section class="cta">
-        <b-button v-if="activeUser !== undefined" :variant="isNewUser ? 'link' : 'primary'" to="/fridge-stock">Tilføj madvarer</b-button>
-        <b-button v-if="activeUser !== undefined" :variant="!isNewUser ? 'link' : 'primary'" to="/user">Opret dit første table</b-button>
-        <b-button v-else variant="primary" to="/user">Log in</b-button>
+        <b-button v-if="activeUser !== undefined" :variant="isNewUser ? 'link' : 'primary'" to="/fridge-stock">{{ language.home.add_foods }}</b-button>
+        <b-button v-if="activeUser !== undefined" :variant="!isNewUser ? 'link' : 'primary'" to="/user">{{ language.home.add_first_table }}</b-button>
+        <b-button v-else variant="primary" to="/user">{{ language.general.login }}</b-button>
       </section>
     </div>
   </div>
@@ -16,17 +16,20 @@
 
 <script>
 import api from '@/api'
+import Vue from 'vue'
 
 export default {
   data () {
     return {
       activeUser: null,
-      isNewUser: true
+      isNewUser: true,
+      language: this.$parent.prefferedLanguage
     }
   },
   async created () {
     this.activeUser = await this.$auth.getUser()
     this.isNewUser = await this.updateIsNewUser()
+    this.language = this.$parent.prefferedLanguage
   },
   methods: {
     async updateIsNewUser () {

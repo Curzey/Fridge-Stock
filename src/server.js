@@ -54,7 +54,8 @@ let Table = database.define('tables', {
 })
 
 let User = database.define('users', {
-  sub: Sequelize.STRING
+  sub: Sequelize.STRING,
+  lang: Sequelize.STRING
 })
 
 // Initialize finale

@@ -1,0 +1,44 @@
+{
+  "title": "English",
+  "general": {
+    "login": "Log in",
+    "logout": "Log out"
+  },
+  "home": {
+    "see_more_at": "See more at",
+    "add_foods": "Add foods",
+    "add_first_table": "Create your first table"
+  },
+  "user": {
+    "hello": "Hello",
+    "okta_verified": "Your Okta account is verified!",
+    "okta_not_verified": "You need to verify your Okta account!",
+    "language": "Current language",
+    "choose_language": "Choose language",
+    "active_language": "Active language:",
+    "add_tables": "Add storage",
+    "add_help": "This is where you create the storage which inventory you want to manage.",
+    "examples": "Examples",
+    "add_help_examples": "Fridge,Cupboard",
+    "your_tables": "Your storage units",
+    "your_tables_help": "This is where you see the storage units you've created above. You can add foods to theses at your FridgeStock",
+    "add_items_to_table": "To FridgeStock!",
+    "save_item": "Save item",
+    "edit": "Edit",
+    "delete": "Delete"
+  },
+  "fridgeStock": {
+    "edit": "Edit",
+    "new_item": "New Item",
+    "title": "Title",
+    "qty": "Quantity",
+    "unit": "Unit",
+    "category": "Category",
+    "table": "Storage",
+    "save": "Save",
+    "add_storage_units": "Add storage units to continue",
+    "add_storage_units_link": "Add them there!",
+    "is_all_empty": "is all empty. Quickly, go shopping!!",
+    "delete": "Delete"
+  }
+}

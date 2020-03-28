@@ -1,0 +1,44 @@
+{
+  "title": "Danish",
+  "general": {
+    "login": "Log ind",
+    "logout": "Log ud"
+  },
+  "home": {
+    "see_more_at": "Se mere på",
+    "add_foods": "Tilføj madvarer",
+    "add_first_table": "Opret din første opbevaringsgenstand"
+  },
+  "user": {
+    "hello": "Hej",
+    "okta_verified": "Din Okta profil er verificeret!",
+    "okta_not_verified": "Du mangler at verificere in Okta profil!",
+    "language": "Sprog",
+    "choose_language": "Vælg sprog",
+    "active_language": "Aktivt sprog:",
+    "add_tables": "Opret opbevaringsgenstand",
+    "add_help": "Her opretter du de opbevaringsgenstande som du vil holde styr på indholdet i.",
+    "examples": "Eksempler",
+    "add_help_examples": "Køleskab,Fryser,Skab",
+    "your_tables": "Dine opbevaringsgenstande",
+    "your_tables_help": "Dette er dine oprettede opbevaringsgenstande. Du kan tilføje madvarer til dem, i din FridgeStock",
+    "add_items_to_table": "Til FridgeStock!",
+    "save_item": "Gem opbevaringsgenstand",
+    "edit": "Ret",
+    "delete": "Slet"
+  },
+  "fridgeStock": {
+    "edit": "Ret",
+    "new_item": "Tilføj ny madvare",
+    "title": "Madvare",
+    "qty": "Antal",
+    "unit": "Enhed (liter)",
+    "category": "Kategori",
+    "table": "Opbevaringsgenstand",
+    "save": "Gem",
+    "add_storage_units": "Tilføj en opbevaringsgenstand for at fortsætte",
+    "add_storage_units_link": "Tilføj her",
+    "is_all_empty": "er helt tom. Skynd dig ud at handle!!",
+    "delete": "Slet"
+  }
+}

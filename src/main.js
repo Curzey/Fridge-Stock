@@ -9,6 +9,8 @@ import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import moment from 'moment'
 import momentTZ from 'moment-timezone'
+import english from '@/locale/en.json'
+import danish from '@/locale/da.json'
 
 Vue.filter('formatDate', function(value) {
   if (value) {
@@ -19,6 +21,13 @@ Vue.filter('formatDate', function(value) {
 Vue.use(BootstrapVue)
 
 Vue.config.productionTip = false
+
+Vue.prototype.languages = {
+  danish: danish,
+  english: english
+}
+
+Vue.prototype.defaultPrefferedLanguage = Vue.prototype.languages.english
 
 /* eslint-disable no-new */
 new Vue({

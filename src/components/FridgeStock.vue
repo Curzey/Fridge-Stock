@@ -3,36 +3,39 @@
     <h1 class="h1 mt-5 mb-4">What's in my fridge?</h1>
     <b-alert :show="loading" class="d-flex align-items-center" variant="info"><i class="gg-spinner mr-2"></i> Loading... </b-alert>
 
-    <b-jumbotron :lead="(model.id ? 'Edit ' + model.title : 'New Item')">
+    <b-jumbotron v-if="tables.length > 1" :lead="(model.id ? language.fridgeStock.edit + ' ' + model.title : language.fridgeStock.new_item)">
       <b-form inline @submit.prevent="saveTableItem">
-
-        <label class="sr-only" for="inline-form-input-title">Title</label>
+        <label class="sr-only" for="inline-form-input-title">{{ language.fridgeStock.title }}</label>
         <b-input-group prepend="<i class='gg-chevron-double-right'></i>" class="mb-2 mr-sm-2 mb-sm-0">
-          <b-input v-model="model.title" id="inline-form-input-title" required placeholder="Title"></b-input>
+          <b-input v-model="model.title" id="inline-form-input-title" required :placeholder="language.fridgeStock.title"></b-input>
         </b-input-group>
 
-        <label class="sr-only" for="inline-form-input-quantity">Quantity</label>
+        <label class="sr-only" for="inline-form-input-quantity">{{ language.fridgeStock.qty }}</label>
         <b-input-group prepend="<i class='gg-infinity'></i>" class="mb-2 mr-sm-2 mb-sm-0">
-          <b-input type="number" v-model="model.qty" id="inline-form-input-quantity" placeholder="Quantity"></b-input>
+          <b-input type="number" v-model="model.qty" id="inline-form-input-quantity" :placeholder="language.fridgeStock.qty"></b-input>
         </b-input-group>
 
-        <label class="sr-only" for="inline-form-input-unit">Unit</label>
+        <label class="sr-only" for="inline-form-input-unit">{{ language.fridgeStock.unit }}</label>
         <b-input-group prepend="<i class='gg-gym'></i>" class="mb-2 mr-sm-2 mb-sm-0">
-          <b-input v-model="model.unit" id="inline-form-input-unit" placeholder="Unit"></b-input>
+          <b-input v-model="model.unit" id="inline-form-input-unit" :placeholder="language.fridgeStock.unit"></b-input>
         </b-input-group>
 
-        <label class="sr-only" for="inline-form-input-category">Category</label>
+        <label class="sr-only" for="inline-form-input-category">{{ language.fridgeStock.category }}</label>
         <b-input-group prepend="<i class='gg-qr'></i>" class="mb-2 mr-sm-2 mb-sm-0">
-          <b-input v-model="model.category" id="inline-form-input-category" placeholder="Category"></b-input>
+          <b-input v-model="model.category" id="inline-form-input-category" :placeholder="language.fridgeStock.category"></b-input>
         </b-input-group>
 
-        <label class="sr-only" for="inline-form-input-table">Table</label>
+        <label class="sr-only" for="inline-form-input-table">{{ language.fridgeStock.table }}</label>
         <b-input-group prepend="<i class='gg-row-first'></i>" class="mb-2 mr-sm-2 mb-sm-0">
           <b-form-select required v-model="model.table" :options="tables"></b-form-select>
         </b-input-group>
 
-        <b-button type="submit" variant="primary">Save</b-button>
+        <b-button type="submit" variant="primary">{{ language.fridgeStock.save }}</b-button>
       </b-form>
+    </b-jumbotron>
+
+    <b-jumbotron v-else :lead="language.fridgeStock.add_storage_units">
+      <b-button to="/user" type="submit" variant="primary">{{ language.fridgeStock.add_storage_units_link }}</b-button>
     </b-jumbotron>
 
     <b-row>
@@ -48,7 +51,7 @@
 						:show="tableItems.filter(tableItem => tableItem.table === table.id).length === 0"
 						variant="warning">
 
-						{{ table.title }} is all empty. Quickly, go shopping!!
+						{{ table.title }} {{ language.fridgeStock.is_all_empty}}
 					</b-alert>
 
           <b-card-group columns>
@@ -68,8 +71,8 @@
                     <b-badge class="m-1 d-flex align-items-center" pill variant="light"><i class="gg-time mr-2"></i> <span class="text-muted">{{ item.updatedAt | formatDate }}</span></b-badge>
                   </div>
                   <b-button-group size="sm">
-                    <a class="btn btn-info" href="#" variant="info" @click="populateTableItemToEdit(item)">Edit</a>
-                    <a class="btn btn-warning" href="#" variant="warning" @click="deleteTableItem(item.id)">Delete</a>
+                    <a class="btn btn-info" href="#" variant="info" @click="populateTableItemToEdit(item)">{{ language.fridgeStock.edit }}</a>
+                    <a class="btn btn-warning" href="#" variant="warning" @click="deleteTableItem(item.id)">{{ language.fridgeStock.delete }}</a>
                   </b-button-group>
                 </div>
               </b-card>
@@ -93,13 +96,15 @@ export default {
       tableItems: [],
       model: { table: null }, // initialize model with nulled table value for the default selected option in form
       tables: [],
-      activeUser: null
+      activeUser: null,
+      language: this.$parent.prefferedLanguage
 		}
   },
   async created () {
     this.activeUser = await this.$auth.getUser()
     this.refreshTableItems()
     this.tablesAsOptions()
+    this.language = this.$parent.prefferedLanguage
   },
   methods: {
     async refreshTableItems () {
@@ -120,7 +125,7 @@ export default {
       })
 
       // Add default/empty option
-      const defaultOption = { value: null, text: 'Please pick an option', disabled: true, skip: true }
+      const defaultOption = { value: null, text: this.language.fridgeStock.table, disabled: true, skip: true }
       this.tables.unshift(defaultOption)
     },
     async populateTableItemToEdit (tableItem) {
