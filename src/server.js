@@ -82,8 +82,9 @@ let userResource = finale.resource({
 
 // Resets the database and launches the express app on :8081
 // delete .sync(force: true) if database keeps deleted
+//{ force: true }
 database
-  .sync({ force: true })
+  .sync()
   .then(() => {
     app.listen(8081, () => {
       console.log('listening to port localhost:8081')

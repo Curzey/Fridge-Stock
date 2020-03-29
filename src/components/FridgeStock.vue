@@ -42,10 +42,17 @@
       <b-col>
         <b-card-group columns>
   				<b-card
-            :header="table.title"
   					v-for="(table, index) in tables.filter(table => !table.skip)"
   					:key="index"
             class="mb-3">
+
+            <template v-slot:header>
+              <h6 class="mb-0 mr-2">{{ table.title }}</h6>
+              <b-badge pill variant="info">
+                {{ tableItems.filter(tableItem => tableItem.table === table.id).length }}
+              </b-badge>
+            </template>
+
 
   					<b-alert
   						:show="tableItems.filter(tableItem => tableItem.table === table.id).length === 0"
@@ -202,6 +209,10 @@ export default {
   }
   .card-columns {
     column-count: 1;
+  }
+  .card-header {
+    display: flex;
+    align-items: center;
   }
   @media (min-width: 768px) {
     .card-columns {
