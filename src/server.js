@@ -66,17 +66,20 @@ finale.initialize({
 // Create the dynamic REST resource for our TableItem model
 let tabeItemResource = finale.resource({
   model: TableItem,
-  endpoints: ['/tableItems', '/tableItems/:id']
+  endpoints: ['/tableItems', '/tableItems/:id'],
+  pagination: false
 })
 
 let tableResource = finale.resource({
   model: Table,
-  endpoints: ['/tables', '/tables/:id']
+  endpoints: ['/tables', '/tables/:id'],
+  pagination: false
 })
 
 let userResource = finale.resource({
   model: User,
-  endpoints: ['/users', '/users/:id']
+  endpoints: ['/users', '/users/:id'],
+  pagination: false
 })
 
 // Resets the database and launches the express app on :8081
