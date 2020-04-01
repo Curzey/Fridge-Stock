@@ -30,7 +30,6 @@ export default {
     this.activeUser = await this.$auth.getUser()
     this.isNewUser = await this.updateIsNewUser()
     this.language = this.$parent.prefferedLanguage
-    console.log(this.activeUser)
   },
   methods: {
     async updateIsNewUser () {

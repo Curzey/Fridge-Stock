@@ -69,7 +69,6 @@ export default {
         const currentUser = dbUsers.filter(item => item.sub === this.activeUser.sub) // get current user
         const shortenedLang = currentUser[0] ? (currentUser[0].lang ? currentUser[0].lang : 'en') : 'en' // if current user has set language, use it
         this.prefferedLanguage = shortenedLang === 'da' ? danish : english // set language from current user
-        console.log(this.prefferedLanguage)
       }
     }
   }

@@ -12,12 +12,7 @@
 
         <label class="sr-only" for="inline-form-input-quantity">{{ language.fridgeStock.qty }}</label>
         <b-input-group prepend="<i class='gg-infinity'></i>" class="mb-2 mr-sm-2">
-          <b-input type="number" step="0.01" min="0" max="" v-model="model.qty" id="inline-form-input-quantity" :placeholder="language.fridgeStock.qty"></b-input>
-        </b-input-group>
-
-        <label class="sr-only" for="inline-form-input-unit">{{ language.fridgeStock.unit }}</label>
-        <b-input-group prepend="<i class='gg-gym'></i>" class="mb-2 mr-sm-2">
-          <b-input v-model="model.unit" id="inline-form-input-unit" :placeholder="language.fridgeStock.unit"></b-input>
+          <b-input v-model="model.qty" id="inline-form-input-quantity" :placeholder="language.fridgeStock.qty"></b-input>
         </b-input-group>
 
         <label class="sr-only" for="inline-form-input-category">{{ language.fridgeStock.category }}</label>
@@ -75,7 +70,7 @@
                   :data-handle="handleizeString(category.title)">
                   <b-list-group-item class="mb-1 d-flex align-items-center">
                     <h6 class="mb-0 mr-3">{{ category.title }}</h6>
-                    <b-badge class="m-1 d-inline-flex align-items-center" pill variant="light">x{{ category.qty }} {{ category.unit }}</span></b-badge>
+                    <b-badge class="m-1 d-inline-flex align-items-center" pill variant="light"><i class="gg-infinity mr-2 ml-1"></i> {{ category.qty }}</span></b-badge>
                     <b-button-group size="sm" class="ml-auto">
                       <a class="btn btn-info" href="#" variant="info" @click="populateTableItemToEdit(category)">{{ language.fridgeStock.edit }}</a>
                       <a class="btn btn-warning" href="#" variant="warning" @click="deleteTableItem(category.id)">{{ language.fridgeStock.delete }}</a>
@@ -110,15 +105,19 @@ export default {
   },
   async created () {
     this.activeUser = await this.$auth.getUser()
-    this.refreshTableItems()
-    this.tablesAsOptions()
+    await this.tablesAsOptions()
+    await this.refreshTableItems()
     this.language = this.$parent.prefferedLanguage
     await this.categorizeTableItems()
   },
   methods: {
     async refreshTableItems () {
       this.loading = true
-      this.tableItems = await api.getElements('tableItems')
+      const allTableItems = await api.getElements('tableItems')
+      const allTableIds = this.tables.map(table => table.id)
+      const userTableItems = allTableItems.filter(item => allTableIds.includes(item.table))
+
+      this.tableItems = userTableItems
       this.loading = false
     },
     async tablesAsOptions () {
@@ -147,7 +146,6 @@ export default {
           categories[el.category] = [el]
         }
       })
-      console.log(categories)
       this.categorizedTableItems = categories
     },
     async populateTableItemToEdit (tableItem) {

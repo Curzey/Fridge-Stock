@@ -42,8 +42,7 @@ let database = new Sequelize({
 // id, createdAt, and updatedAt are added by sequelize automatically
 let TableItem = database.define('tableItems', {
   title: Sequelize.STRING,
-  qty: Sequelize.INTEGER,
-  unit: Sequelize.STRING,
+  qty: Sequelize.STRING,
   category: Sequelize.STRING,
   table: Sequelize.INTEGER
 })
@@ -87,6 +86,6 @@ database
   .sync()
   .then(() => {
     app.listen(8081, () => {
-      console.log('listening to port localhost:8081')
+      console.log('listening to port 8081')
     })
   })
