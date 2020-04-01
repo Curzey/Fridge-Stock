@@ -65,7 +65,11 @@
                   </b-badge>
                 </div>
                 <b-list-group
-                  v-for="(category, index) in categories.filter(item => item.table === table.id)"
+                  v-for="(category, index) in
+                    categories
+                      .filter(item => item.table === table.id)
+                      .sort( dynamicSort('title') )
+                  "
                   :key="index"
                   :data-handle="handleizeString(category.title)">
                   <b-list-group-item class="mb-1 d-flex align-items-center">
@@ -182,6 +186,22 @@ export default {
     },
     handleizeString (string) {
       return string.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/-$/, '').replace(/^-/, '')
+    },
+    dynamicSort(property) {
+      var sortOrder = 1
+
+      if (property[0] === '-') {
+          sortOrder = -1
+          property = property.substr(1)
+      }
+
+      return function (a, b) {
+          if (sortOrder === -1) {
+              return b[property].localeCompare(a[property])
+          } else {
+              return a[property].localeCompare(b[property])
+          }
+      }
     }
   }
 }
