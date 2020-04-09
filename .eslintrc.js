@@ -28,6 +28,8 @@ module.exports = {
     // allow debugger during development
     'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0,
     'no-tabs': 0,
-    'one-var': 0
+    'one-var': 0,
+    'no-undef': 0,
+    'no-trailing-spaces': 0
   }
 }

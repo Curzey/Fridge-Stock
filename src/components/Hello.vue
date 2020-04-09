@@ -1,78 +1,52 @@
 <template>
-  <div class="hero">
-    <div>
-      <h1 class="display-3"><span class="fat">Master Refridgiator</span> at your service!</h1>
-      <p class="lead d-flex align-items-center justify-content-center">
-        {{ language.home.see_more_at }} <a class="d-flex align-items-center" target="_blank" href="https://github.com/Curzey/Fridge-Stock"><i class="gg-git-fork"></i> Github</a>
-      </p>
-      <section class="cta">
-        <b-button v-if="activeUser !== undefined" :variant="isNewUser ? 'link' : 'primary'" to="/fridge-stock">{{ language.home.add_foods }}</b-button>
-        <b-button v-if="activeUser !== undefined" :variant="!isNewUser ? 'link' : 'primary'" to="/user">{{ language.home.add_first_table }}</b-button>
-        <b-button v-else variant="primary" to="/user">{{ language.general.login }}</b-button>
-      </section>
-    </div>
-  </div>
+  <article id="hello">
+    <h1 class="app-title">
+      Master Refridgiator 
+      <span class="app-title--desc">at your service!</span>
+    </h1>
+    <HelloIllustration/>
+  </article>
 </template>
 
 <script>
 import api from '@/api'
 import Vue from 'vue'
+import HelloIllustration from '@/components/HelloIllustration.vue'
 
 export default {
   data () {
     return {
-      activeUser: null,
-      isNewUser: true,
       language: this.$parent.prefferedLanguage
     }
   },
-  async created () {
-    this.activeUser = await this.$auth.getUser()
-    this.isNewUser = await this.updateIsNewUser()
-    this.language = this.$parent.prefferedLanguage
+  components: {
+    HelloIllustration
   },
-  methods: {
-    async updateIsNewUser () {
-      if ( this.activeUser !== undefined ) {
-        const tables = await api.getElements('tables')
-        const userTables = tables.filter(item => item.user === this.activeUser.sub)
-        return userTables.length <= 0
-      }
-    }
+  async created () {
+    this.language = this.$parent.prefferedLanguage
   }
 }
 </script>
 
-<style lang="postcss">
-  .hero {
-    height: 90vh;
+<style lang="scss">
+  @import "@/assets/app.scss";
+
+  #hello {
     display: flex;
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
-    justify-content: center;
-    text-align: center;
-  }
+    padding: $page-spacing;
+    min-height: 100vh;
 
-  .hero .lead {
-    font-weight: 200;
-    font-size: 1.5rem;
-  }
+    svg {
+      height: 200px;
+      margin-top: 50px;
+    }
 
-  .gg-git-fork {
-    margin-left: 8px;
-    margin-right: 10px;
-  }
-
-  .fat {
-    font-weight: 600;
-  }
-
-  .cta {
-    display: flex;
-    justify-content: center;
-    margin-top: 30px;
-  }
-
-  .cta .btn-link {
-    order: 2;
+    .app-title  {
+      text-align: right;
+      &--desc { display: block; }
+    }
   }
 </style>

@@ -1,68 +1,75 @@
 <template>
-  <div class="container-fluid mt-4">
-    <h1 class="h1">{{ language.user.hello }} {{ activeUser ? `${activeUser.given_name} ${activeUser.family_name}` : '$user' }}</h1>
+  <article id="user" class="container">
 
-		<b-row>
-			<b-col md="6" xl="4">
-
-				<b-card :title="language.user.add_tables" class="mb-3">
-          <div class="help mb-4">
-            <p class="help-description mb-1">{{ language.user.add_help }}</p>
-            <div class="label-group">
-              <span class="label">{{ language.user.examples }}</span>
-              <b-badge class="mr-2" variant="info" v-for="(example, index) in help_examples" :key="index">
-                {{ example }}
-              </b-badge>
-            </div>
-          </div>
-					<form @submit.prevent="saveTable">
-						<b-form-group label="">
-							<b-form-input type="text" required v-model="model.title"></b-form-input>
-						</b-form-group>
-						<div>
-							<b-btn type="submit" variant="success">{{ language.user.save_item }}</b-btn>
-						</div>
-					</form>
-				</b-card>
-
-        <b-card :title="language.user.your_tables" class="mb-3">
-        <div class="help mb-4">
-          <p class="help-description mb-1">{{ language.user.your_tables_help }}</p>
-          <b-button class="p-0" to="/fridge-stock" variant="link">{{ language.user.add_items_to_table }}</b-button>
+    <section class="user-add-storage">
+      <section class="route-title">
+        <h1>{{ language.user.add_tables }}</h1>
+        <p class="label" v-html="language.user.add_help"></p>
+        <div class="route-title__examples examples">
+          <p class="fat-label">{{ language.user.examples }}</p>
+          <span class="example"
+            v-for="(example, index) in help_examples"
+            :key="index">
+            {{ example }}
+          </span>
         </div>
-  				<b-list-group>
-  				  <b-list-group-item v-for="(table, index) in tables" :key="index">
-  						{{ table.title }}
-  						<a href="#" @click.prevent="populateTableToEdit(table)">{{ language.user.edit }}</a> -
-  						<a href="#" @click.prevent="deleteTable(table.id)">{{ language.user.delete }}</a>
-  					</b-list-group-item>
-  				</b-list-group>
-        </b-card>
-			</b-col>
+      </section>
 
-      <b-col md="6" xl="4">
-        <b-card :title="language.user.language" class="mb-3">
-          <b-dropdown id="dropdown-1" :text="language.user.choose_language" class="m-md-2">
-            <b-dropdown-item><a href="#" @click.prevent="setNewLanguage('da')">Dansk</a></b-dropdown-item>
-            <b-dropdown-item><a href="#" @click.prevent="setNewLanguage('en')">English</a></b-dropdown-item>
-          </b-dropdown>
-          <div>
-            <strong>{{ language.user.active_language }}</strong>
-            <b-badge variant="info">{{ this.$parent.prefferedLanguage.title }}</b-badge>
-          </div>
-        </b-card>
-      </b-col>
-		</b-row>
+      <article class="card">
+        <form @submit.prevent="saveTable" class="add-table-form default-form">
+          <label class="input" for="storage">
+            <input class="focus-me" v-focus required type="text" v-model="model.title" id="storage">
+            <span class="label">{{ language.user.form_placeholder }}</span>
+          </label>
+          <button class="button" type="submit" >{{ language.user.save_item }}</button>
+        </form>
+      </article>
+    </section>
 
+    <section class="user-list-storages">
+      <section class="route-title">
+        <h2>{{ language.user.your_tables}}</h2>
+        <p class="label" v-html="language.user.your_tables_help"></p>
+      </section>
 
-  </div>
+      <section class="user-storages card">
+        <ul>
+          <li
+            v-for="(table, index) in tables"
+            :key="index"
+            class="table-item">
+            <h6 class="table-item__title" v-if="table !== editingItem" @dblclick="editItem(table)">{{ table.title }}</h6>
+            <span class="actions">
+              <a class="edit" href="#" @click="populateTableToEdit(table)" :title="language.user.edit"><EditIcon/></a>
+              <a class="delete" href="#" @click.prevent="deleteTable(table.id)" :title="language.user.delete"><DeleteIcon/></a>
+            </span>
+            <div class="table-item__editing-state" v-if="table === editingItem" @keyup.enter="endEditing(table)" @blur="endEditing(table)">
+              <input class="table-item__title editing" type="text" v-focus v-model="table.title">              
+              <span class="actions">
+               <a class="save" href="#" @click.prevent="endEditing(table)"><CheckIcon/></a>
+              </span>
+            </div>
+          </li>
+        </ul>
+      </section>
+    </section>
+
+  </article>
 </template>
 
 <script>
 import api from '@/api'
 import Vue from 'vue'
+import EditIcon from '@/components/EditIcon.vue'
+import DeleteIcon from '@/components/DeleteIcon.vue'
+import CheckIcon from '@/components/CheckIcon.vue'
 
 export default {
+  components: {
+    EditIcon,
+    CheckIcon,
+    DeleteIcon
+  },
   data () {
     return {
       loading: false,
@@ -70,7 +77,8 @@ export default {
       model: {},
       activeUser: null,
       language: this.$parent.prefferedLanguage,
-      help_examples: []
+      help_examples: [],
+      editingItem: {}
     }
   },
   async created () {
@@ -109,6 +117,7 @@ export default {
       }
       this.model = { user: this.activeUser.sub } // reset form
       await this.getUserItems()
+      this.$parent.isNewUser = false
     },
     async deleteTable (id) {
       if (confirm('Are you sure you want to delete this table?')) {
@@ -118,15 +127,57 @@ export default {
         }
         await api.deleteElement('tables', id)
         await this.getUserItems()
+
+        if ( this.tables.length === 0 ) {
+          this.$parent.isNewUser = true
+        }
       }
     },
-    async setNewLanguage (lang) {
-      const users = await api.getElements('users')
-      const dbActiveUser = users.find(item => item.sub === this.activeUser.sub)
-      this.activeUser.lang = lang
-      await api.updateElement('users', dbActiveUser.id, this.activeUser)
-      location.reload()
+    async editItem (item) {
+      this.editingItem = item
+    },
+    async endEditing (item) {
+      await api.updateElement('tables', item.id, item)
+      this.editingItem = {}
     }
   }
 }
 </script>
+
+<style lang="scss" scoped>
+  @import "@/assets/app.scss";
+  @import "@/assets/components/_select.scss";
+  @import "@/assets/components/_form.scss";
+  @import "@/assets/components/_input.scss";
+  @import "@/assets/components/_button.scss";
+  @import "@/assets/components/_table-item.scss";
+
+  #user {
+    padding: $page-spacing;
+
+    .examples {
+      margin-top: 15px;
+
+      .example {
+        display: inline-flex;
+        background-color: $col-primary--light;
+        color: $col-primary;
+        padding: 5px 8px;
+        border-radius: 4px;
+        margin: 2px 10px 2px 0;
+      }
+    }
+
+    .card {
+      max-width: 750px;
+    }
+
+    .add-table-form {
+      .button {
+        margin-top: 25px;
+        margin-bottom: 25px;
+      }
+    }
+  }
+</style>
+

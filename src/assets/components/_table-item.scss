@@ -1,0 +1,41 @@
+.table-item,
+.table-item__editing-state {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid rgba($col-light, .1);
+  padding-bottom: 4px;
+
+  &:last-of-type {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  &__title {
+    width: 50%;
+  }
+
+  &__qty {
+    width: 18%;
+    font-weight: 600;
+  }
+
+  .actions {
+    width: 25%;
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+
+    a {
+      color: $col-light;
+
+      &.edit svg { width: 15px; }
+      &.delete svg { width: 18px; }
+      &.save svg { width: 18px; }
+    }
+  }
+
+  .editing {
+    border: none;
+  }
+}

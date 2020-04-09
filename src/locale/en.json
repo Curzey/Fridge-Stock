@@ -1,5 +1,8 @@
 {
   "title": "English",
+  "layout": {
+    "my_storages": "My Inventory"
+  },
   "general": {
     "login": "Log in",
     "logout": "Log out"
@@ -10,6 +13,7 @@
     "add_first_table": "Create your first table"
   },
   "user": {
+    "page_title": "Indstillinger",    
     "hello": "Hello",
     "okta_verified": "Your Okta account is verified!",
     "okta_not_verified": "You need to verify your Okta account!",
@@ -19,9 +23,10 @@
     "add_tables": "Add storage",
     "add_help": "This is where you create the storage which inventory you want to manage.",
     "examples": "Examples",
+    "form_placeholder": "Storage unit",    
     "add_help_examples": "Fridge,Cupboard",
     "your_tables": "Your storage units",
-    "your_tables_help": "This is where you see the storage units you've created above. You can add foods to theses at your FridgeStock",
+    "your_tables_help": "This is where you see the storage units you've created above. You can add foods to theses at your FridgeStock. <br/> You can edit the name of your storage unit either by clicking the <svg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' class='feather feather-edit-3'><path d='M12 20h9'></path><path d='M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z'></path></svg> icon, or doubleclicking the title",
     "add_items_to_table": "To FridgeStock!",
     "save_item": "Save item",
     "edit": "Edit",
@@ -30,10 +35,12 @@
   "fridgeStock": {
     "edit": "Edit",
     "new_item": "New Item",
+    "helper": "This is where you add new inventory items to your <a href='/user'>Storage</a>. <br/> You can edit your items by either clicking the <svg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' class='feather feather-edit-3'><path d='M12 20h9'></path><path d='M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z'></path></svg> icon, or simply doubleclicking the item's title or quantity. Clicking <svg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' class='feather feather-edit-3'><path d='M12 20h9'></path><path d='M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z'></path></svg> gives more options.",    
     "title": "Title",
     "qty": "Quantity",
     "unit": "Unit",
     "category": "Category",
+    "categories": "...or choose from existing",    
     "table": "Storage",
     "save": "Save",
     "add_storage_units": "Add storage units to continue",

@@ -4,7 +4,7 @@
 > `vue-cli 3`, `vue-router`, `Okta Vue SDK`, `npm`, `webpack`, `babel`
 
 #### Frontend
-> `VueJS`, `PostCSS`
+> `VueJS`, `SCSS`
 
 #### Middleware, Backend & REST API
 > `Node`, `Express`, `Sequelize`, `Finale`, `Okta JWT Verifier`
@@ -13,7 +13,6 @@
 
 ## Test login
 > ibgtqiwahwjeakuhoc@ttirv.org : 10Minutepassword
-
 
 ## Build Setup Locally
 

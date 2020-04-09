@@ -1,0 +1,23 @@
+$container-size: 1200px;
+$default-spacing: 20px;
+$page-spacing: 70px $default-spacing $default-spacing $default-spacing;
+$gutter: 15px;
+$gut: 25px;  
+
+$col-primary: #3EAAFF;
+$col-text: #333333;
+$col-light: #98A1B2;
+$col-secondary: #01D8FD;
+$col-primary--light: #BBECFF;
+$col-accent: #5EE7FF;
+$app-bg: #F6FAFB;
+
+$breakpoints: (
+  small: 512px,
+  medium: 768px,
+  large: 1024px,
+  content: 1200px,
+  laptop: 1440px,
+  desktop: 1920px,    
+  retina: 2880px
+);

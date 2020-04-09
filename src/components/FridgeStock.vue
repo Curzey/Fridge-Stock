@@ -1,143 +1,160 @@
 <template>
-  <div class="container-fluid mt-4">
-    <h1 class="h1 mt-5 mb-4">What's in my fridge?</h1>
-    <b-alert :show="loading" class="d-flex align-items-center" variant="info"><i class="gg-spinner mr-2"></i> Loading... </b-alert>
+  <article id="fridge-stock" class="container">
+    <section class="route-title">
+      <h1 v-html="(model.id ? language.fridgeStock.edit + ' ' + model.title : language.fridgeStock.new_item)"></h1>
+      <p class="label" v-html="language.fridgeStock.helper"></p>
+    </section>
 
-    <b-jumbotron v-if="tables.length > 1" :lead="(model.id ? language.fridgeStock.edit + ' ' + model.title : language.fridgeStock.new_item)">
-      <b-form inline @submit.prevent="saveTableItem">
-        <label class="sr-only" for="inline-form-input-title">{{ language.fridgeStock.title }}</label>
-        <b-input-group prepend="<i class='gg-chevron-double-right'></i>" class="mb-2 mr-sm-2">
-          <b-input v-model="model.title" id="inline-form-input-title" required :placeholder="language.fridgeStock.title"></b-input>
-        </b-input-group>
+    <article class="card" v-if="tables.length > 0">
+      <form @submit.prevent="saveTableItem" class="add-item-form default-form">
 
-        <label class="sr-only" for="inline-form-input-quantity">{{ language.fridgeStock.qty }}</label>
-        <b-input-group prepend="<i class='gg-infinity'></i>" class="mb-2 mr-sm-2">
-          <b-input v-model="model.qty" id="inline-form-input-quantity" :placeholder="language.fridgeStock.qty"></b-input>
-        </b-input-group>
+        <label class="input" :for="language.fridgeStock.title">
+          <input v-focus class="focus-me" required type="text" v-model="model.title" :id="language.fridgeStock.title">
+          <span class="label">{{ language.fridgeStock.title }}</span>
+        </label>
+        
+        <label class="input" :for="language.fridgeStock.qty">
+          <input required type="text" v-model="model.qty" :id="language.fridgeStock.qty">
+          <span class="label">{{ language.fridgeStock.qty }}</span>
+        </label>
 
-        <label class="sr-only" for="inline-form-input-category">{{ language.fridgeStock.category }}</label>
-        <b-input-group prepend="<i class='gg-qr'></i>" class="mb-2 mr-sm-2">
-          <b-input v-model="model.category" required id="inline-form-input-category" :placeholder="language.fridgeStock.category"></b-input>
-        </b-input-group>
+        <label class="input js-category-input" :for="language.fridgeStock.category">
+          <input ref="categoryInput" required type="text" v-model="model.category" :id="language.fridgeStock.category">
+          <span class="label">{{ language.fridgeStock.category }}</span>
+        </label>
 
-        <label class="sr-only" for="inline-form-input-table">{{ language.fridgeStock.table }}</label>
-        <b-input-group prepend="<i class='gg-row-first'></i>" class="mb-2 mr-sm-2">
-          <b-form-select required v-model="model.table" :options="tables"></b-form-select>
-        </b-input-group>
+        <div class="examples">
+          <p class="label">{{ language.fridgeStock.categories }}</p>
+          <span class="example"
+            v-for="(example, index) in categorizedTableItems"
+            :key="index"
+            @click="toggleCategoryExample(index)">
+            {{ index }}
+          </span>
+        </div>
 
-        <b-button type="submit" class="mb-2" variant="primary">{{ language.fridgeStock.save }}</b-button>
-      </b-form>
-    </b-jumbotron>
+        <div class="select">
+          <select class="select-text label" v-model="model.table" required>
+            <option value="" disabled selected></option>
+            <option v-for="(table, index) in tables" 
+              :key="index" 
+              :value="table.id">
+              {{ table.title }}
+            </option>
+          </select>
+          <span class="select-highlight"></span>
+          <span class="select-bar"></span>
+          <label class="select-label">{{ language.fridgeStock.table }}</label>
+        </div>
 
-    <b-jumbotron v-else :lead="language.fridgeStock.add_storage_units">
-      <b-button to="/user" type="submit" variant="primary">{{ language.fridgeStock.add_storage_units_link }}</b-button>
-    </b-jumbotron>
+        <button class="button" type="submit" >{{ language.fridgeStock.save }}</button>
+      </form>
+    </article>
 
-    <b-row>
-      <b-col>
-        <b-card-group columns>
-  				<b-card
-  					v-for="(table, index) in tables.filter(table => !table.skip)"
-  					:key="index"
-            class="mb-3">
+    <article class="card" v-else>
+      <h3>{{ language.fridgeStock.add_storage_units }}</h3>
+      <router-link class="button" to="/user">{{ language.fridgeStock.add_storage_units_link }}</router-link>
+    </article>
 
-            <template v-slot:header>
-              <h6 class="mb-0 mr-2">{{ table.title }}</h6>
-              <b-badge pill variant="info">
-                {{ tableItems.filter(tableItem => tableItem.table === table.id).length }}
-              </b-badge>
-            </template>
+    <section class="tables">
+      <section
+        v-for="(table, index) in tables"
+        :key="index"
+        class="table">
 
-
-  					<b-alert
-  						:show="tableItems.filter(tableItem => tableItem.table === table.id).length === 0"
-  						variant="warning">
-
-  						{{ table.title }} {{ language.fridgeStock.is_all_empty}}
-  					</b-alert>
-
-            <div v-for="(categories, index) in categorizedTableItems" :key="index">
-              <div v-if="categories.filter(item => item.table === table.id).length > 0" class="mb-4">
-                <div class="d-flex align-items-center mb-2">
-                  <h4 class="d-flex align-items-center mb-0 mr-2"><i class="gg-bowl mr-2"></i> {{ index }}</h4>
-                  <b-badge pill variant="info">
-                    {{ categories.filter(item => item.table === table.id).length }}
-                  </b-badge>
-                </div>
-                <b-list-group
-                  v-for="(category, index) in
-                    categories
-                      .filter(item => item.table === table.id)
-                      .sort( dynamicSort('title') )
-                  "
-                  :key="index"
-                  :data-handle="handleizeString(category.title)">
-                  <b-list-group-item class="mb-1 d-flex align-items-center">
-                    <h6 class="mb-0 mr-3">{{ category.title }}</h6>
-                    <b-badge class="m-1 d-inline-flex align-items-center" pill variant="light"><i class="gg-infinity mr-2 ml-1"></i> {{ category.qty }}</span></b-badge>
-                    <b-button-group size="sm" class="ml-auto">
-                      <a class="btn btn-info" href="#" variant="info" @click="populateTableItemToEdit(category)">{{ language.fridgeStock.edit }}</a>
-                      <a class="btn btn-warning" href="#" variant="warning" @click="deleteTableItem(category.id)">{{ language.fridgeStock.delete }}</a>
-                    </b-button-group>
-                  </b-list-group-item>
-                </b-list-group>
-              </div>
+        <header class="table-header"
+          v-if="tableItems.filter(tableItem => tableItem.table === table.id).length > 0">
+          <h2 class="has-counter">
+            {{ table.title }}
+            <div class="counter">
+              {{ tableItems.filter(tableItem => tableItem.table === table.id).length }}
             </div>
+          </h2>
+        </header>
 
-  				</b-card>
-        </b-card-group>
-      </b-col>
-    </b-row>
+        <article v-for="(categories, index) in categorizedTableItems" 
+          v-if="categories.filter(item => item.table === table.id).length > 0"
+          :key="index"
+          class="card">
+          <ul>
+            <h3 class="has-counter">
+              {{ index }}
+              <div class="counter">
+                {{ categories.filter(item => item.table === table.id).length }}
+              </div>
+            </h3>
+            <li
+              v-for="(category, index) in
+                categories
+                  .filter(item => item.table === table.id)
+                  .sort( dynamicSort('title') )"
+              :key="index"
+              :data-handle="handleizeString(category.title)"
+              class="table-item">
+              <h6 class="table-item__title" v-if="category !== editingItem" @dblclick="editItem(category)">{{ category.title }}</h6>
+              <span class="table-item__qty" v-if="category !== editingItem" @dblclick="editItem(category)">{{ category.qty }}</span>
+              <span class="actions" v-if="category !== editingItem">
+                <a class="edit" href="#" @click="populateTableItemToEdit(category)" :title="language.fridgeStock.edit"><EditIcon/></a>
+                <a class="delete" href="#" @click.prevent="deleteTableItem(category.id)" :title="language.fridgeStock.delete"><DeleteIcon/></a>
+              </span>
+              <div class="table-item__editing-state" v-if="category === editingItem" @keyup.enter="endEditing(category)" @blur="endEditing(category)">
+                <input class="table-item__title editing" type="text" v-model="category.title">              
+                <input class="table-item__qty editing" type="text" v-model="category.qty">
+                <span class="actions">
+                <a class="save" href="#" @click.prevent="endEditing(category)"><CheckIcon/></a>
+                </span>
+              </div>
+            </li>
+          </ul>
+        </article>
 
-  </div>
+      </section>
+    </section>
+
+  </article>
 </template>
 
 <script>
 import api from '@/api'
+import EditIcon from '@/components/EditIcon.vue'
+import DeleteIcon from '@/components/DeleteIcon.vue'
+import CheckIcon from '@/components/CheckIcon.vue'
 
 export default {
+  components: {
+    EditIcon,
+    DeleteIcon,
+    CheckIcon
+  },
   data () {
     return {
-      loading: false,
       tableItems: [],
       model: { table: null }, // initialize model with nulled table value for the default selected option in form
       tables: [],
       activeUser: null,
       language: this.$parent.prefferedLanguage,
-      categorizedTableItems: {}
+      categorizedTableItems: {},
+      categoryExampleUsed: false,
+      editingItem: {}
 		}
   },
   async created () {
     this.activeUser = await this.$auth.getUser()
-    await this.tablesAsOptions()
+    await this.getUserTables()
     await this.refreshTableItems()
     this.language = this.$parent.prefferedLanguage
     await this.categorizeTableItems()
   },
   methods: {
     async refreshTableItems () {
-      this.loading = true
       const allTableItems = await api.getElements('tableItems')
       const allTableIds = this.tables.map(table => table.id)
       const userTableItems = allTableItems.filter(item => allTableIds.includes(item.table))
-
       this.tableItems = userTableItems
-      this.loading = false
     },
-    async tablesAsOptions () {
+    async getUserTables () {
       const tables = await api.getElements('tables')
       this.tables = tables.filter(item => item.user === this.activeUser.sub)
-
-      // Populate each table with key/value pairs that bootstrap form select knows
-      this.tables.map(item => {
-        item.value = item.id
-        item.text = item.title
-        return item
-      })
-
-      // Add default/empty option
-      const defaultOption = { value: null, text: this.language.fridgeStock.table, disabled: true, skip: true }
-      this.tables.unshift(defaultOption)
     },
     async categorizeTableItems () {
       await this.refreshTableItems()
@@ -174,7 +191,7 @@ export default {
       }
     },
     async deleteTableItem (id) {
-      if (confirm('Are you sure you want to delete this tableItem?')) {
+      if (confirm('Are you sure you want to delete this table?')) {
         // if we are editing a tableItem we deleted, remove it from the form
         if (this.model.id === id) {
           this.model = { table: null }
@@ -184,6 +201,16 @@ export default {
         await this.categorizeTableItems()
       }
     },
+    toggleCategoryExample (example) {
+      if ( this.model.category === example ) {
+        this.model.category = this.$refs.categoryInput.value
+        this.categoryExampleUsed = false       
+      } else {
+        this.model.category = example
+        this.$refs.categoryInput.value = example
+        this.categoryExampleUsed = true
+      }
+    },
     handleizeString (string) {
       return string.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/-$/, '').replace(/^-/, '')
     },
@@ -191,55 +218,82 @@ export default {
       var sortOrder = 1
 
       if (property[0] === '-') {
-          sortOrder = -1
-          property = property.substr(1)
+        sortOrder = -1
+        property = property.substr(1)
       }
 
       return function (a, b) {
-          if (sortOrder === -1) {
-              return b[property].localeCompare(a[property])
-          } else {
-              return a[property].localeCompare(b[property])
-          }
+        if (sortOrder === -1) {
+          return b[property].localeCompare(a[property])
+        } else {
+          return a[property].localeCompare(b[property])
+        }
       }
+    },
+    async editItem (item) {
+      this.editingItem = item
+    },
+    async endEditing (item) {
+      await api.updateElement('tableItems', item.id, item)
+      this.editingItem = {}
     }
   }
 }
 </script>
 
-<style media="screen" lang="postcss" scroped>
-  [data-handle] {
-    transition: .3s all;
-    --ggs: .75;
-  }
-  .being-updated {
-    opacity: .5;
-  }
-  .input-group-text {
-    width: 50px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  .input-group {
-    min-width: 250px;
-    max-width: 100%;
-  }
-  .card-columns {
-    column-count: 1;
-  }
-  .card-header {
-    display: flex;
-    align-items: center;
-  }
-  @media (min-width: 768px) {
-    .card-columns {
-      column-count: 2;
+<style media="screen" lang="scss" scoped>
+  @import "@/assets/app.scss";
+  @import "@/assets/components/_select.scss";
+  @import "@/assets/components/_form.scss";
+  @import "@/assets/components/_input.scss";
+  @import "@/assets/components/_button.scss";
+  @import "@/assets/components/_table-item.scss";
+  
+  #fridge-stock {
+    padding: $page-spacing;
+
+    .examples {
+      margin-top: 15px;
+      width: 100%;
+
+      @media ( min-width: map-get($breakpoints, small) ) {
+        width: calc(50% - #{$gut/2}) !important;
+      }
+
+      .example {
+        display: inline-flex;
+        background-color: $col-primary--light;
+        color: $col-primary;
+        padding: 5px 8px;
+        border-radius: 4px;
+        margin: 2px 10px 2px 0;
+        cursor: pointer;
+      }
+    }
+
+    .add-item-form {
+      .button {
+        margin-top: 25px;
+        margin-bottom: 25px;
+      }
+    }
+
+    .counter {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 2px;
+      border-radius: 100px;
+      width: 15px;
+      height: 15px;
+      font-size: 1rem;
+      color: $col-text;
+    }
+
+    .has-counter {
+      display: flex;
+      align-items: flex-start;
     }
   }
-  @media (min-width: 1366px) {
-    .card-columns {
-      column-count: 3;
-    }
-  }
+
 </style>

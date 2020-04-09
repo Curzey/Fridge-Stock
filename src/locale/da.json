@@ -1,5 +1,8 @@
 {
   "title": "Danish",
+  "layout": {
+    "my_storages": "Min beholdning"
+  },
   "general": {
     "login": "Log ind",
     "logout": "Log ud"
@@ -10,32 +13,36 @@
     "add_first_table": "Opret din første opbevaringsgenstand"
   },
   "user": {
+    "page_title": "Indstillinger",
     "hello": "Hej",
     "okta_verified": "Din Okta profil er verificeret!",
     "okta_not_verified": "Du mangler at verificere in Okta profil!",
     "language": "Sprog",
     "choose_language": "Vælg sprog",
     "active_language": "Aktivt sprog:",
-    "add_tables": "Opret opbevaringsgenstand",
-    "add_help": "Her opretter du de opbevaringsgenstande som du vil holde styr på indholdet i.",
+    "add_tables": "Opret ny beholdning",
+    "add_help": "Her opretter du de beholdninger som du vil holde styr på indholdet i.",
     "examples": "Eksempler",
+    "form_placeholder": "Beholdning",
     "add_help_examples": "Køleskab,Fryser,Skab",
-    "your_tables": "Dine opbevaringsgenstande",
-    "your_tables_help": "Dette er dine oprettede opbevaringsgenstande. Du kan tilføje madvarer til dem, i din FridgeStock",
+    "your_tables": "Dine beholdninger",
+    "your_tables_help": "Dette er en liste over dine beholdninger. Du kan se, og tilføje til dem, i din <a href='/fridge-stock'>FridgeStock</a>. <br/> Du kan ændre navnet på din beholdning ved at dobbeltklikke på den, eller trykke på <svg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' class='feather feather-edit-3'><path d='M12 20h9'></path><path d='M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z'></path></svg> ikonet.",
     "add_items_to_table": "Til FridgeStock!",
-    "save_item": "Gem opbevaringsgenstand",
+    "save_item": "Tilføj beholdning",
     "edit": "Ret",
     "delete": "Slet"
   },
   "fridgeStock": {
-    "edit": "Ret",
-    "new_item": "Tilføj ny madvare",
+    "edit": "Rediger madvare",
+    "new_item": "Opret ny madvare",
+    "helper": "Her tilføjer du madvarer til dine <a href='/user'>beholdninger</a>. <br/> Du kan rette dine madvarer enten med at trykke på <svg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' class='feather feather-edit-3'><path d='M12 20h9'></path><path d='M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z'></path></svg> ikonet, eller ved at dobbeltklikke på enten madvarens titel eller mængde. Førstnævnte har flest muligheder.",
     "title": "Madvare",
     "qty": "Antal",
     "unit": "Enhed (liter)",
     "category": "Kategori",
+    "categories": "...eller vælg fra eksisterende kategorier",
     "table": "Opbevaringsgenstand",
-    "save": "Gem",
+    "save": "Gem madvare",
     "add_storage_units": "Tilføj en opbevaringsgenstand for at fortsætte",
     "add_storage_units_link": "Tilføj her",
     "is_all_empty": "er helt tom. Skynd dig ud at handle!!",

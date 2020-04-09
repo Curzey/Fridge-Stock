@@ -1,0 +1,100 @@
+.select {
+  position: relative;
+  margin-top: $gut;
+  padding: 0 15px;
+  width: 100%;
+
+  @media ( min-width: map-get($breakpoints, small) ) {
+    width: calc(50% - #{$gut/2}) !important;
+  }
+
+  &-text {
+    position: relative;
+    background-color: transparent;
+    width: 100%;
+    padding: 10px 10px 10px 0;
+    font-size: inherit;
+    border-radius: 0;
+    border: none;
+    border-bottom: 1px solid rgba(0,0,0, 0.12);
+    appearance: none;
+    -webkit-appearance:none
+
+    &:focus {
+    outline: none;
+      border-bottom: 1px solid rgba(0,0,0, 0);
+    }
+
+    &::after {
+      position: absolute;
+      top: 18px;
+      right: 10px;
+      width: 0;
+      height: 0;
+      padding: 0;
+      content: '';
+      border-left: 6px solid transparent;
+      border-right: 6px solid transparent;
+      border-top: 6px solid rgba(0, 0, 0, 0.12);
+      pointer-events: none;
+    }
+  }
+
+  &-label {
+    color: rgba(0,0,0, 0.26);
+    font-size: inherit;
+    position: absolute;
+    pointer-events: none;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    transition: 0.2s ease all;
+  }
+
+  /* active state */
+  .select-text:focus ~ .select-label, .select-text:valid ~ .select-label {
+    top: -10px;
+    transform: none;
+    transition: 0.2s ease all;
+    font-size: 80%;
+  }
+
+  .select-text:focus ~ .select-bar:before, .select-text:focus ~ .select-bar:after {
+    width: 50%;
+  }
+
+  &-bar {
+    position: relative;
+    display: block;
+    width: 100%;
+
+    &::before,
+    &::after {
+      content: '';
+      height: 2px;
+      width: 0;
+      bottom: 1px;
+      position: absolute;
+      background: $col-primary;
+      transition: 0.2s ease all;
+    }
+
+    &::before {
+      left: 50%;
+    }
+
+    &::after {
+      right: 50%;
+    }
+  }
+
+  &-highlight {
+    position: absolute;
+    height: 60%;
+    width: 100px;
+    top: 25%;
+    left: 0;
+    pointer-events: none;
+    opacity: 0.5;
+  }
+}

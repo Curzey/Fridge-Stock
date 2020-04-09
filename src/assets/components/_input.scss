@@ -1,0 +1,43 @@
+.input {
+  position: relative;
+  margin-top: $gut;
+  width: 100%;
+
+  @media ( min-width: map-get($breakpoints, small) ) {
+    width: calc(50% - #{$gut/2});
+  }
+
+  .label {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    transition: .2s ease all;
+  }
+
+  > input {
+    width: 100%;
+    padding: 10px 15px;
+    color: $col-text;
+    font-family: inherit;
+    font-size: inherit;
+    outline: none;
+    border: 1px solid $col-light;
+    border-radius: 50px;  
+    box-shadow: rgba(0,0,0,.16) 0px 1px 1px;
+
+    &:focus,
+    &:valid { 
+      outline: none; 
+
+      + .label {
+        top: -10px;
+        font-size: 80%;
+      }
+    }
+
+    &:focus {
+      border-color: $col-primary;
+    }
+  }
+}

@@ -4,13 +4,10 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-import BootstrapVue from 'bootstrap-vue'
-import 'bootstrap/dist/css/bootstrap.css'
-import 'bootstrap-vue/dist/bootstrap-vue.css'
 import moment from 'moment'
 import momentTZ from 'moment-timezone'
-import english from '@/locale/en.json'
-import danish from '@/locale/da.json'
+import api from '@/api'
+import Cookies from 'js-cookie'
 
 Vue.filter('formatDate', function(value) {
   if (value) {
@@ -18,16 +15,14 @@ Vue.filter('formatDate', function(value) {
   }
 })
 
-Vue.use(BootstrapVue)
-
 Vue.config.productionTip = false
 
-Vue.prototype.languages = {
-  danish: danish,
-  english: english
-}
-
-Vue.prototype.defaultPrefferedLanguage = Vue.prototype.languages.english
+// Custom directive for autofocus input fields
+Vue.directive('focus', {
+  inserted: function (el) {
+    el.focus()
+  }
+})
 
 /* eslint-disable no-new */
 new Vue({
