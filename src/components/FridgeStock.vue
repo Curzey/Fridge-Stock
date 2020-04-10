@@ -1,6 +1,6 @@
 <template>
   <article id="fridge-stock" class="container">
-    <section class="route-title">
+    <section class="route-title" v-if="tables.length > 0">
       <h1 v-html="(model.id ? language.fridgeStock.edit + ' ' + model.title : language.fridgeStock.new_item)"></h1>
       <p class="label" v-html="language.fridgeStock.helper"></p>
     </section>
@@ -51,10 +51,21 @@
       </form>
     </article>
 
-    <article class="card" v-else>
-      <h3>{{ language.fridgeStock.add_storage_units }}</h3>
-      <router-link class="button" to="/user">{{ language.fridgeStock.add_storage_units_link }}</router-link>
+    <article class="pilot" v-else>
+      <section class="route-title">
+        <h1>{{ language.fridgeStock.pilot.title }}</h1>
+        <p class="label">{{ language.fridgeStock.pilot.helper }}</p>
+        <router-link to="/user" class="button">{{ language.fridgeStock.pilot.add_your_first }}</router-link>
+      </section>
+      <span class="fat-label">Screenshot</span>
+      <img class="pilot__desktop" src="@/assets/filled_app.png" alt="Screenshot of a filled app">
+      <img class="pilot__mobile" src="@/assets/filled_app__mobile.png" alt="Screenshot of a filled app">      
     </article>
+
+    <article class="no-inventory" v-if="tableItems.length === 0 && tables.length > 0">
+      <p class="label">{{ language.fridgeStock.no_inventory }}</p>
+    </article>
+
 
     <section class="tables">
       <section
@@ -69,45 +80,50 @@
             <div class="counter">
               {{ tableItems.filter(tableItem => tableItem.table === table.id).length }}
             </div>
+            <div class="expander" @click.prevent="expandTable(table)">
+              <span v-if="table.expanded" class="label">{{ language.general.fold }}</span>
+              <span v-else class="label">{{ language.general.unfold }}</span>              
+            </div>
           </h2>
         </header>
 
-        <article v-for="(categories, index) in categorizedTableItems" 
-          v-if="categories.filter(item => item.table === table.id).length > 0"
-          :key="index"
-          class="card">
-          <ul>
-            <h3 class="has-counter">
-              {{ index }}
-              <div class="counter">
-                {{ categories.filter(item => item.table === table.id).length }}
-              </div>
-            </h3>
-            <li
-              v-for="(category, index) in
-                categories
-                  .filter(item => item.table === table.id)
-                  .sort( dynamicSort('title') )"
-              :key="index"
-              :data-handle="handleizeString(category.title)"
-              class="table-item">
-              <h6 class="table-item__title" v-if="category !== editingItem" @dblclick="editItem(category)">{{ category.title }}</h6>
-              <span class="table-item__qty" v-if="category !== editingItem" @dblclick="editItem(category)">{{ category.qty }}</span>
-              <span class="actions" v-if="category !== editingItem">
-                <a class="edit" href="#" @click="populateTableItemToEdit(category)" :title="language.fridgeStock.edit"><EditIcon/></a>
-                <a class="delete" href="#" @click.prevent="deleteTableItem(category.id)" :title="language.fridgeStock.delete"><DeleteIcon/></a>
-              </span>
-              <div class="table-item__editing-state" v-if="category === editingItem" @keyup.enter="endEditing(category)" @blur="endEditing(category)">
-                <input class="table-item__title editing" type="text" v-model="category.title">              
-                <input class="table-item__qty editing" type="text" v-model="category.qty">
-                <span class="actions">
-                <a class="save" href="#" @click.prevent="endEditing(category)"><CheckIcon/></a>
+        <TransitionExpand>
+          <article v-for="(categories, index) in categorizedTableItems" 
+            v-if="categories.filter(item => item.table === table.id).length > 0 && table.expanded"
+            :key="index"
+            class="card">
+            <ul>
+              <h3 class="has-counter">
+                {{ index }}
+                <div class="counter">
+                  {{ categories.filter(item => item.table === table.id).length }}
+                </div>
+              </h3>
+              <li
+                v-for="category in
+                  categories
+                    .filter(item => item.table === table.id)
+                    .sort( dynamicSort('title') )"
+                :key="category.id"
+                :data-handle="handleizeString(category.title)"
+                class="table-item">
+                <h6 class="table-item__title" v-if="category !== editingItem" @dblclick="editItem(category)">{{ category.title }}</h6>
+                <span class="table-item__qty" v-if="category !== editingItem" @dblclick="editItem(category)">{{ category.qty }}</span>
+                <span class="actions" v-if="category !== editingItem">
+                  <a class="edit" href="#" @click="populateTableItemToEdit(category)" :title="language.fridgeStock.edit"><EditIcon/></a>
+                  <a class="delete" href="#" @click.prevent="deleteTableItem(category.id)" :title="language.fridgeStock.delete"><DeleteIcon/></a>
                 </span>
-              </div>
-            </li>
-          </ul>
-        </article>
-
+                <div class="table-item__editing-state" v-if="category === editingItem" @keyup.enter="endEditing(category)">
+                  <input class="table-item__title editing" type="text" v-model="category.title">              
+                  <input v-focus class="table-item__qty editing" type="text" v-model="category.qty">
+                  <span class="actions">
+                  <a class="save" href="#" @click.prevent="endEditing(category)"><CheckIcon/></a>
+                  </span>
+                </div>
+              </li>
+            </ul>
+          </article>
+        </TransitionExpand>
       </section>
     </section>
 
@@ -119,17 +135,19 @@ import api from '@/api'
 import EditIcon from '@/components/EditIcon.vue'
 import DeleteIcon from '@/components/DeleteIcon.vue'
 import CheckIcon from '@/components/CheckIcon.vue'
+import TransitionExpand from '@/components/TransitionExpand'
 
 export default {
   components: {
     EditIcon,
     DeleteIcon,
-    CheckIcon
+    CheckIcon,
+    TransitionExpand
   },
   data () {
     return {
       tableItems: [],
-      model: { table: null }, // initialize model with nulled table value for the default selected option in form
+      model: { table: null }, 
       tables: [],
       activeUser: null,
       language: this.$parent.prefferedLanguage,
@@ -146,6 +164,9 @@ export default {
     await this.categorizeTableItems()
   },
   methods: {
+    expandTable (table) {
+      table.expanded = !table.expanded
+    },
     async refreshTableItems () {
       const allTableItems = await api.getElements('tableItems')
       const allTableIds = this.tables.map(table => table.id)
@@ -154,6 +175,11 @@ export default {
     },
     async getUserTables () {
       const tables = await api.getElements('tables')
+
+      for (const table of tables) { 
+        table.expanded = true 
+      }
+
       this.tables = tables.filter(item => item.user === this.activeUser.sub)
     },
     async categorizeTableItems () {
@@ -248,6 +274,7 @@ export default {
   @import "@/assets/components/_input.scss";
   @import "@/assets/components/_button.scss";
   @import "@/assets/components/_table-item.scss";
+  @import "@/assets/components/_pilot.scss";
   
   #fridge-stock {
     padding: $page-spacing;
@@ -293,6 +320,23 @@ export default {
     .has-counter {
       display: flex;
       align-items: flex-start;
+    }
+
+    .no-inventory {
+      box-shadow: rgba(0,0,0,.16) 0px 1px 3px;
+      background-color: #effcff;
+      padding: $gutter;
+      border-radius: 10px;
+    }
+
+    .expander {
+      font-size: 1rem;
+      margin-left: auto;
+      font-weight: 400;
+      display: inline-flex;
+      margin-top: auto;
+      cursor: pointer;
+      user-select: none;
     }
   }
 

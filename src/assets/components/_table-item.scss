@@ -5,6 +5,9 @@
   align-items: center;
   border-bottom: 1px solid rgba($col-light, .1);
   padding-bottom: 4px;
+  padding: 4px 0;
+  position: relative;
+  min-height: 35px;
 
   &:last-of-type {
     border-bottom: none;
@@ -16,7 +19,7 @@
   }
 
   &__qty {
-    width: 18%;
+    width: 25%;
     font-weight: 600;
   }
 
@@ -37,5 +40,18 @@
 
   .editing {
     border: none;
+    font-weight: 400;
   }
+}
+
+.table-item__editing-state {
+  box-shadow: rgba(0,0,0,.16) 0px 1px 3px;
+  padding: 5px;
+  position: absolute;
+  background-color: #fff;
+  z-index: 10;
+  top: 50%;
+  transform: translateY(-50%);
+  left: -10px;
+  width: calc(100% + 20px);
 }

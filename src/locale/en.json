@@ -5,12 +5,14 @@
   },
   "general": {
     "login": "Log in",
-    "logout": "Log out"
+    "logout": "Log out",
+    "fold": "Fold",
+    "unfold": "Unfold"
   },
   "home": {
     "see_more_at": "See more at",
-    "add_foods": "Add foods",
-    "add_first_table": "Create your first table"
+    "add_inventory": "Add inventory",
+    "setup_storage": "Setup storages"
   },
   "user": {
     "page_title": "Indstillinger",    
@@ -47,6 +49,12 @@
     "add_storage_units_link": "Add them there!",
     "is_all_empty": "is all empty. Quickly, go shopping!!",
     "delete": "Delete",
-    "other": "Other"
+    "other": "Other",
+    "no_inventory": "Congratulations! You've created one or more storage - now you can start adding it's inventory above!",
+    "pilot": {
+      "title": "You need to add storage units to get started",
+      "helper": "When you've added your first storage unit, you can start to add it's inventory. Reference the example below.",
+      "add_your_first": "Add your first storage unit"
+    }
   }
 }

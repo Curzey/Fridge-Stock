@@ -193,19 +193,20 @@ export default {
   }
 
   .tables {
-    column-count: 1;
-    column-gap: 30px;
-
-    @media ( min-width: map-get($breakpoints, medium) ) {
-      column-count: 2;
-    }
-
-    @media ( min-width: map-get($breakpoints, content) ) {
-      column-count: 3;
-    }
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
 
     .table {
-      break-inside: avoid-column;
+      width: 100%;
+
+      @media ( min-width: map-get($breakpoints, medium) ) {
+        width: calc(50% - 30px);
+      }
+
+      @media ( min-width: map-get($breakpoints, content) ) {
+        width: calc(33.33% - 30px);
+      }
     }
   }
 

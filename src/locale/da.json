@@ -5,12 +5,14 @@
   },
   "general": {
     "login": "Log ind",
-    "logout": "Log ud"
+    "logout": "Log ud",
+    "fold": "Skjul",
+    "unfold": "Vis"
   },
   "home": {
     "see_more_at": "Se mere på",
-    "add_foods": "Tilføj madvarer",
-    "add_first_table": "Opret din første opbevaringsgenstand"
+    "add_inventory": "Tilføj madvarer",
+    "setup_storage": "Opret beholdninger"
   },
   "user": {
     "page_title": "Indstillinger",
@@ -47,6 +49,12 @@
     "add_storage_units_link": "Tilføj her",
     "is_all_empty": "er helt tom. Skynd dig ud at handle!!",
     "delete": "Slet",
-    "other": "Andet"
+    "other": "Andet",
+    "no_inventory": "Fedt! Du har fået tilføjet én eller flere beholdninger - det betyder at du nu kan begynde at tilføje dets inventar ovenfor.",    
+    "pilot": {
+      "title": "Du mangler at tilføje beholdninger, før du kan starte",
+      "helper": "Når du har oprettet din første beholdning, kan du begynde at tilføje madvarer til den. Nedenfor ser du et eksempel på hvordan det kan se ud.",
+      "add_your_first": "Opret din første beholdning"
+    }
   }
 }

@@ -26,7 +26,7 @@
       </article>
     </section>
 
-    <section class="user-list-storages">
+    <section class="user-list-storages" v-if="tables.length > 0">
       <section class="route-title">
         <h2>{{ language.user.your_tables}}</h2>
         <p class="label" v-html="language.user.your_tables_help"></p>

@@ -5,6 +5,11 @@
       <span class="app-title--desc">at your service!</span>
     </h1>
     <HelloIllustration/>
+
+    <div class="button-wrapper">
+      <router-link class="button" to="/fridge-stock">{{ language.home.add_inventory}} </router-link>
+      <router-link to="/user">{{ language.home.setup_storage }}</router-link>
+    </div>
   </article>
 </template>
 
@@ -30,6 +35,7 @@ export default {
 
 <style lang="scss">
   @import "@/assets/app.scss";
+  @import "@/assets/components/_button.scss";
 
   #hello {
     display: flex;
@@ -47,6 +53,17 @@ export default {
     .app-title  {
       text-align: right;
       &--desc { display: block; }
+    }
+
+    .button-wrapper {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      margin-top: $gut;
+
+      > * {
+        margin: 5px;
+      }
     }
   }
 </style>
