@@ -19,11 +19,6 @@
       <router-view/>
     </transition>
 
-    <button class="floating-add" ref="floating-add" @click.prevent="handleFloatingAdd()">
-      <router-link v-if="!isNewUser" to="/fridge-stock"><i class="gg-math-plus"></i></router-link>
-      <router-link v-else to="/user"><i class="gg-math-plus"></i></router-link>
-    </button>
-
   </div>
 </template>
 
@@ -61,11 +56,6 @@ export default {
     '$route': 'refreshActiveUser'
   },
   methods: {
-    handleFloatingAdd() {
-      if ( this.$route.name === 'FridgeStock' || this.$route.name === 'User' ) {
-        document.querySelector('.focus-me').focus()
-      }
-    },
     login () {
       this.$auth.loginRedirect()
     },
