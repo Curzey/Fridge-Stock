@@ -88,41 +88,43 @@
         </header>
 
         <TransitionExpand>
-          <article v-for="(categories, index) in categorizedTableItems" 
-            v-if="categories.filter(item => item.table === table.id).length > 0 && table.expanded"
-            :key="index"
-            class="card">
-            <ul>
-              <h3 class="has-counter">
-                {{ index }}
-                <div class="counter">
-                  {{ categories.filter(item => item.table === table.id).length }}
-                </div>
-              </h3>
-              <li
-                v-for="category in
-                  categories
-                    .filter(item => item.table === table.id)
-                    .sort( dynamicSort('title') )"
-                :key="category.id"
-                :data-handle="handleizeString(category.title)"
-                class="table-item">
-                <h6 class="table-item__title" v-if="category !== editingItem" @dblclick="editItem(category)">{{ category.title }}</h6>
-                <span class="table-item__qty" v-if="category !== editingItem" @dblclick="editItem(category)">{{ category.qty }}</span>
-                <span class="actions" v-if="category !== editingItem">
-                  <a class="edit" href="#" @click="populateTableItemToEdit(category)" :title="language.fridgeStock.edit"><EditIcon/></a>
-                  <a class="delete" href="#" @click.prevent="deleteTableItem(category.id)" :title="language.fridgeStock.delete"><DeleteIcon/></a>
-                </span>
-                <div class="table-item__editing-state" v-if="category === editingItem" @keyup.enter="endEditing(category)">
-                  <input class="table-item__title editing" type="text" v-model="category.title">              
-                  <input v-focus class="table-item__qty editing" type="text" v-model="category.qty">
-                  <span class="actions">
-                  <a class="save" href="#" @click.prevent="endEditing(category)"><CheckIcon/></a>
+          <div v-if="table.expanded">
+            <article v-for="(categories, index) in categorizedTableItems" 
+              v-if="categories.filter(item => item.table === table.id).length > 0"
+              :key="index"
+              class="card">
+              <ul>
+                <h3 class="has-counter">
+                  {{ index }}
+                  <div class="counter">
+                    {{ categories.filter(item => item.table === table.id).length }}
+                  </div>
+                </h3>
+                <li
+                  v-for="(category, index) in
+                    categories
+                      .filter(item => item.table === table.id)
+                      .sort( dynamicSort('title') )"
+                  :key="index"
+                  :data-handle="handleizeString(category.title)"
+                  class="table-item">
+                  <h6 class="table-item__title" v-if="category !== editingItem" @dblclick="editItem(category)">{{ category.title }}</h6>
+                  <span class="table-item__qty" v-if="category !== editingItem" @dblclick="editItem(category)">{{ category.qty }}</span>
+                  <span class="actions" v-if="category !== editingItem">
+                    <a class="edit" href="#" @click="populateTableItemToEdit(category)" :title="language.fridgeStock.edit"><EditIcon/></a>
+                    <a class="delete" href="#" @click.prevent="deleteTableItem(category.id)" :title="language.fridgeStock.delete"><DeleteIcon/></a>
                   </span>
-                </div>
-              </li>
-            </ul>
-          </article>
+                  <div class="table-item__editing-state" v-if="category === editingItem" @keyup.enter="endEditing(category)">
+                    <input class="table-item__title editing" type="text" v-model="category.title">              
+                    <input v-focus class="table-item__qty editing" type="text" v-model="category.qty">
+                    <span class="actions">
+                    <a class="save" href="#" @click.prevent="endEditing(category)"><CheckIcon/></a>
+                    </span>
+                  </div>
+                </li>
+              </ul>
+            </article>
+          </div>
         </TransitionExpand>
       </section>
     </section>
