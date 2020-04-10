@@ -1,5 +1,8 @@
 # What the fridge!?
 
+<img alt="GitHub package.json version" src="https://img.shields.io/github/package-json/v/curzey/Fridge-Stock">
+<img alt="GitHub issues" src="https://img.shields.io/github/issues-raw/curzey/fridge-stock">
+
 #### Setup
 > `vue-cli 3`, `vue-router`, `Okta Vue SDK`, `npm`, `webpack`, `babel`
 
