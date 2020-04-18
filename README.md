@@ -1,4 +1,5 @@
 # What the fridge!?
+<img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/curzey/fridge-stock"> <img alt="GitHub package.json version" src="https://img.shields.io/github/package-json/v/curzey/Fridge-Stock">
 
 #### Setup
 > `vue-cli 3`, `vue-router`, `Okta Vue SDK`, `npm`, `webpack`, `babel`
@@ -12,6 +13,8 @@
 ...So now you know what's in your fridge? :beer: :sunglasses:
 
 ## Test login
+> http://app.curzey.dk
+
 > ibgtqiwahwjeakuhoc@ttirv.org : 10Minutepassword
 
 ## Build Setup Locally
