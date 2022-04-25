@@ -20,15 +20,15 @@
     padding: 10px 15px;
     color: $col-text;
     font-family: inherit;
-    font-size: inherit;
+    font-size: 16px;
     outline: none;
     border: 1px solid $col-light;
-    border-radius: 50px;  
+    border-radius: 50px;
     box-shadow: rgba(0,0,0,.16) 0px 1px 1px;
 
     &:focus,
-    &:valid { 
-      outline: none; 
+    &:valid {
+      outline: none;
 
       + .label {
         top: -10px;
