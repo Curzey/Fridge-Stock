@@ -94,9 +94,10 @@
           <div v-if="table.expanded">
             <article
               v-for="(categories, index) in categorizedTableItems"
+              v-if="categories.filter(item => item.table === table.id).length > 0"
               :key="index"
               class="card">
-              <ul v-if="categories.filter(item => item.table === table.id).length > 0">
+              <ul>
                 <h3 class="has-counter">
                   {{ index }}
                   <div class="counter">
