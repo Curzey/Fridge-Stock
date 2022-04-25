@@ -35,6 +35,7 @@ app.use((req, res, next) => {
 
 let database = new Sequelize({
   dialect: 'sqlite',
+  // storage: './fridge-db.sqlite',
   storage: '/var/www/html/app/Fridge-Stock/fridge-db.sqlite'
 })
 
