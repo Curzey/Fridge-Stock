@@ -4,5 +4,5 @@ git pull
 sudo chown www-data:www-data -R ../Fridge-Stock/
 sudo chmod -R 770 ../Fridge-Stock/
 npm i
-npm build
+npm run build
 sudo service fridge-stock start
