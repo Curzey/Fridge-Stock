@@ -1,18 +1,22 @@
 <template>
   <article id="fridge-stock" class="container">
-    <section class="route-title" v-if="tables.length > 0">
+    <section class="loading-page" v-if="!didLookUpTables">
+      <i class="gg-spinner"></i>
+    </section>
+
+    <section class="route-title" v-if="didLookUpTables && tables.length">
       <h1 v-html="(model.id ? language.fridgeStock.edit + ' ' + model.title : language.fridgeStock.new_item)"></h1>
       <p class="label" v-html="language.fridgeStock.helper"></p>
     </section>
 
-    <article class="card" v-if="tables.length > 0">
+    <article class="card" v-if="didLookUpTables && tables.length">
       <form @submit.prevent="saveTableItem" class="add-item-form default-form">
 
         <label class="input" :for="language.fridgeStock.title">
           <input v-focus class="focus-me" required type="text" v-model="model.title" :id="language.fridgeStock.title">
           <span class="label">{{ language.fridgeStock.title }}</span>
         </label>
-        
+
         <label class="input" :for="language.fridgeStock.qty">
           <input required type="text" v-model="model.qty" :id="language.fridgeStock.qty">
           <span class="label">{{ language.fridgeStock.qty }}</span>
@@ -36,8 +40,8 @@
         <div class="select">
           <select class="select-text label" v-model="model.table" required>
             <option value="" disabled selected></option>
-            <option v-for="(table, index) in tables" 
-              :key="index" 
+            <option v-for="(table, index) in tables"
+              :key="index"
               :value="table.id">
               {{ table.title }}
             </option>
@@ -51,7 +55,7 @@
       </form>
     </article>
 
-    <article class="pilot" v-else>
+    <article class="pilot" v-if="didLookUpTables && !tables.length">
       <section class="route-title">
         <h1>{{ language.fridgeStock.pilot.title }}</h1>
         <p class="label">{{ language.fridgeStock.pilot.helper }}</p>
@@ -59,13 +63,12 @@
       </section>
       <span class="fat-label">Screenshot</span>
       <img class="pilot__desktop" src="@/assets/filled_app.png" alt="Screenshot of a filled app">
-      <img class="pilot__mobile" src="@/assets/filled_app__mobile.png" alt="Screenshot of a filled app">      
+      <img class="pilot__mobile" src="@/assets/filled_app__mobile.png" alt="Screenshot of a filled app">
     </article>
 
     <article class="no-inventory" v-if="tableItems.length === 0 && tables.length > 0">
       <p class="label">{{ language.fridgeStock.no_inventory }}</p>
     </article>
-
 
     <section class="tables">
       <section
@@ -82,18 +85,18 @@
             </div>
             <div class="expander" @click.prevent="expandTable(table)">
               <span v-if="table.expanded" class="label">{{ language.general.fold }}</span>
-              <span v-else class="label">{{ language.general.unfold }}</span>              
+              <span v-else class="label">{{ language.general.unfold }}</span>
             </div>
           </h2>
         </header>
 
         <TransitionExpand>
           <div v-if="table.expanded">
-            <article v-for="(categories, index) in categorizedTableItems" 
-              v-if="categories.filter(item => item.table === table.id).length > 0"
+            <article
+              v-for="(categories, index) in categorizedTableItems"
               :key="index"
               class="card">
-              <ul>
+              <ul v-if="categories.filter(item => item.table === table.id).length > 0">
                 <h3 class="has-counter">
                   {{ index }}
                   <div class="counter">
@@ -115,7 +118,7 @@
                     <a class="delete" href="#" @click.prevent="deleteTableItem(category.id)" :title="language.fridgeStock.delete"><DeleteIcon/></a>
                   </span>
                   <div class="table-item__editing-state" v-if="category === editingItem" @keyup.enter="endEditing(category)">
-                    <input class="table-item__title editing" type="text" v-model="category.title">              
+                    <input class="table-item__title editing" type="text" v-model="category.title">
                     <input v-focus class="table-item__qty editing" type="text" v-model="category.qty">
                     <span class="actions">
                     <a class="save" href="#" @click.prevent="endEditing(category)"><CheckIcon/></a>
@@ -148,8 +151,9 @@ export default {
   },
   data () {
     return {
+      didLookUpTables: false,
       tableItems: [],
-      model: { table: null }, 
+      model: { table: null },
       tables: [],
       activeUser: null,
       language: this.$parent.prefferedLanguage,
@@ -161,6 +165,7 @@ export default {
   async created () {
     this.activeUser = await this.$auth.getUser()
     await this.getUserTables()
+    this.didLookUpTables = true
     await this.refreshTableItems()
     this.language = this.$parent.prefferedLanguage
     await this.categorizeTableItems()
@@ -178,8 +183,8 @@ export default {
     async getUserTables () {
       const tables = await api.getElements('tables')
 
-      for (const table of tables) { 
-        table.expanded = true 
+      for (const table of tables) {
+        table.expanded = true
       }
 
       this.tables = tables.filter(item => item.user === this.activeUser.sub)
@@ -232,7 +237,7 @@ export default {
     toggleCategoryExample (example) {
       if ( this.model.category === example ) {
         this.model.category = this.$refs.categoryInput.value
-        this.categoryExampleUsed = false       
+        this.categoryExampleUsed = false
       } else {
         this.model.category = example
         this.$refs.categoryInput.value = example
@@ -277,7 +282,7 @@ export default {
   @import "@/assets/components/_button.scss";
   @import "@/assets/components/_table-item.scss";
   @import "@/assets/components/_pilot.scss";
-  
+
   #fridge-stock {
     padding: $page-spacing;
 
@@ -340,6 +345,51 @@ export default {
       cursor: pointer;
       user-select: none;
     }
+  }
+
+  .loading-page {
+    height: 80vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .gg-spinner {
+    transform: scale(var(--ggs,1))
+  }
+
+  .gg-spinner,
+  .gg-spinner::after,
+  .gg-spinner::before {
+      box-sizing: border-box;
+      position: relative;
+      display: block;
+      width: 20px;
+      height: 20px
+  }
+
+  .gg-spinner::after,
+  .gg-spinner::before {
+      content: "";
+      position: absolute;
+      border-radius: 100px
+  }
+
+  .gg-spinner::before {
+      animation: spinner 1s
+      cubic-bezier(.6,0,.4,1) infinite;
+      border: 3px solid transparent;
+      border-top-color: currentColor
+  }
+
+  .gg-spinner::after {
+      border: 3px solid;
+      opacity: .2
+  }
+
+  @keyframes spinner {
+      0% { transform: rotate(0deg) }
+      to { transform: rotate(359deg) }
   }
 
 </style>

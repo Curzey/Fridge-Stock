@@ -1,7 +1,8 @@
 {
   "title": "Danish",
   "layout": {
-    "my_storages": "Min beholdning"
+    "my_storages": "Min beholdning",
+    "my_inventory": "Mine madvarer"
   },
   "general": {
     "login": "Log ind",
@@ -50,7 +51,7 @@
     "is_all_empty": "er helt tom. Skynd dig ud at handle!!",
     "delete": "Slet",
     "other": "Andet",
-    "no_inventory": "Fedt! Du har fået tilføjet én eller flere beholdninger - det betyder at du nu kan begynde at tilføje dets inventar ovenfor.",    
+    "no_inventory": "Fedt! Du har fået tilføjet én eller flere beholdninger - det betyder at du nu kan begynde at tilføje dets inventar ovenfor.",
     "pilot": {
       "title": "Du mangler at tilføje beholdninger, før du kan starte",
       "helper": "Når du har oprettet din første beholdning, kan du begynde at tilføje madvarer til den. Nedenfor ser du et eksempel på hvordan det kan se ud.",

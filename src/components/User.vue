@@ -44,7 +44,7 @@
               <a class="delete" href="#" @click.prevent="deleteTable(table.id)" :title="language.user.delete"><DeleteIcon/></a>
             </span>
             <div class="table-item__editing-state" v-if="table === editingItem" @keyup.enter="endEditing(table)" @blur="endEditing(table)">
-              <input class="table-item__title editing" type="text" v-focus v-model="table.title">              
+              <input class="table-item__title editing" type="text" v-focus v-model="table.title">
               <span class="actions">
                <a class="save" href="#" @click.prevent="endEditing(table)"><CheckIcon/></a>
               </span>
@@ -59,7 +59,6 @@
 
 <script>
 import api from '@/api'
-import Vue from 'vue'
 import EditIcon from '@/components/EditIcon.vue'
 import DeleteIcon from '@/components/DeleteIcon.vue'
 import CheckIcon from '@/components/CheckIcon.vue'

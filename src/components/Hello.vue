@@ -1,7 +1,7 @@
 <template>
   <article id="hello">
     <h1 class="app-title">
-      Master Refridgiator 
+      Master Refridgiator
       <span class="app-title--desc">at your service!</span>
     </h1>
     <HelloIllustration/>
@@ -14,8 +14,6 @@
 </template>
 
 <script>
-import api from '@/api'
-import Vue from 'vue'
 import HelloIllustration from '@/components/HelloIllustration.vue'
 
 export default {

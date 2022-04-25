@@ -1,13 +1,13 @@
 <template>
   <div id="app">
     <div class="container">
-        <nav class="main-nav"> 
+        <nav class="main-nav">
           <router-link to="/"><HomeIcon/></router-link>
-          <router-link to="/fridge-stock" class="link-no-deco"><span class="fat-label primary">{{ prefferedLanguage.layout.my_storages }}</span></router-link>
+          <router-link to="/fridge-stock" class="link-no-deco"><span class="fat-label primary">{{ prefferedLanguage.layout.my_inventory }}</span></router-link>
           <div class="main-nav__settings">
-            <a class="lang-picker" href="#" v-if="prefferedLanguage === english" @click.prevent="setLanguage('Danish', true)">da</a>
-            <a class="lang-picker" href="#" v-else @click.prevent="setLanguage('English', true)">en</a>          
-            <router-link to="/user"><SettingsIcon/></router-link>
+            <router-link to="/user" class="link-no-deco">
+              <span class="fat-label primary">{{ prefferedLanguage.layout.my_storages }}</span>
+            </router-link>
           </div>
         </nav>
     </div>
@@ -23,32 +23,26 @@
 </template>
 
 <script>
-import Vue from 'vue'
-import english from '@/locale/en.json'
 import danish from '@/locale/da.json'
 import api from '@/api'
 import HomeIcon from '@/components/HomeIcon.vue'
-import SettingsIcon from '@/components/SettingsIcon.vue'
-import Cookies from 'js-cookie'
 
 export default {
   name: 'app',
   data () {
     return {
       activeUser: null,
-      english: english,
       danish: danish,
       prefferedLanguage: danish,
       isNewUser: true
     }
   },
   components: {
-    HomeIcon,
-    SettingsIcon
+    HomeIcon
   },
   async created () {
     await this.refreshActiveUser()
-    await this.setLanguage(Cookies.get('clientLang'), false)
+    await this.setLanguage()
     this.isNewUser = await this.updateIsNewUser()
   },
   watch: {
@@ -71,10 +65,8 @@ export default {
         location.reload()
       }
     },
-    async setLanguage (lang, reload) {
-      this.prefferedLanguage = danish.title === lang ? danish : english
-      Cookies.set('clientLang', lang)
-      if (reload) { location.reload() }
+    async setLanguage () {
+      this.prefferedLanguage = danish
     },
     async updateIsNewUser () {
       if ( this.activeUser !== undefined ) {
@@ -126,20 +118,12 @@ export default {
     z-index: 5;
 
     svg {
-      stroke: $col-primary; 
+      stroke: $col-primary;
     }
 
     &__settings {
       display: flex;
       align-items: center;
-
-      .lang-picker {
-        @extend .fat-label;
-        @extend .primary;
-        @extend .link-no-deco;
-        text-transform: uppercase;
-        margin-right: 10px;
-      }
     }
   }
 
